@@ -1,144 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flor para Ti</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #ffeef2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>I Love You</title>
+<style>
+  :root{
+    --cell: clamp(14px, 5vw, 28px);
+    --gap: clamp(2px, 1vw, 7px);
+    --pink-bg: #fff8fa;
+    --heart: #d3113a;
+    --heart-shadow: rgba(0,0,0,.25);
+  }
 
-    .flower-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
 
-    .flower {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin-bottom: 0;
-    }
+  .card{
+    width:min(92vw, 820px);
+    background:var(--pink-bg);
+    border-radius:22px;
+    box-shadow:0 18px 50px rgba(0,0,0,.08);
+    padding:clamp(18px, 4vw, 38px);
+    position:relative;
+  }
 
-    .petal {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background: #ff99cc;
-      border-radius: 50%;
-      opacity: 0;
-      animation: bloom 0.5s ease-out forwards;
-    }
+  /* CORAZÓN GRANDE */
+  .hearts{
+    --cols: 17;
+    display:grid;
+    grid-template-columns: repeat(var(--cols), var(--cell));
+    gap:var(--gap);
+    justify-content:center;
+    margin: 4px auto clamp(10px, 4vw, 24px);
+    width:100%;
+  }
 
-    .petal1 { top: 0; left: 30px; animation-delay: 0.1s; }
-    .petal2 { top: 30px; left: 0; animation-delay: 0.2s; }
-    .petal3 { top: 60px; left: 30px; animation-delay: 0.3s; }
-    .petal4 { top: 30px; left: 60px; animation-delay: 0.4s; }
+  .cell{ width:var(--cell); height:var(--cell); }
 
-    .center {
-      position: absolute;
-      top: 40px;
-      left: 40px;
-      width: 40px;
-      height: 40px;
-      background: #ff3366;
-      border-radius: 50%;
-      z-index: 1;
-      opacity: 0;
-      animation: appear 0.8s ease-out forwards;
-      animation-delay: 0.5s;
-    }
+  .h{
+    width:100%; height:100%;
+    display:block;
+    filter: drop-shadow(0 .7px 0.3px #fff6f8)
+            drop-shadow(0 1.4px 1.6px var(--heart-shadow));
+    transform:scale(.0);
+    opacity:0;
+    animation: pop .55s ease-out forwards;
+  }
 
-    .stem {
-      width: 10px;
-      height: 150px;
-      background: #4caf50;
-      border-radius: 5px;
-      margin-top: -10px;
-      animation: grow 1s ease-out forwards;
-      opacity: 0;
-      animation-delay: 0.6s;
-    }
+  @keyframes pop{
+    40%{ transform:scale(1.15); opacity:.9; }
+    100%{ transform:scale(1); opacity:1; }
+  }
 
-    .message {
-      color: #b30059;
-      padding: 20px;
-      max-width: 600px;
-      text-align: justify;
-      line-height: 1.6;
-    }
+  /* MUÑECO + TEXTO */
+  .muneco-section{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(15px, 5vw, 50px);
+    margin-top: clamp(12px, 4vw, 28px);
+    flex-wrap:wrap;
+    text-align:justify;
+  }
+  .muneco-wrap{
+    position:relative;
+  }
+  .muneco{
+    width:clamp(90px, 26vw, 180px);
+    height:auto;
+    display:block;
+  }
+  .mini-heart{
+    position:absolute;
+    left:72%;
+    top:22%;
+    font-size:clamp(14px, 4vw, 22px);
+    animation: floatUp 1.8s ease-in-out infinite;
+    user-select:none;
+  }
+  @keyframes floatUp{
+    0%{ transform: translateY(0) scale(.9); opacity:.8; }
+    60%{ transform: translateY(-16px) scale(1); opacity:1; }
+    100%{ transform: translateY(-26px) scale(1.05); opacity:0; }
+  }
 
-    .message h1 {
-      font-size: 2em;
-      margin-bottom: 15px;
-      text-align: center;
-    }
+  /* Párrafo */
+  .side-text{
+    font-size:clamp(16px, 4.5vw, 22px);
+    font-weight:400;
+    color:#333;
+    max-width:380px;
+    line-height:1.5;
+  }
 
-    .message p {
-      font-size: 1.2em;
-      margin: 0;
-    }
+  /* Mensaje final */
+  .msg{
+    text-align:center;
+    font-size:clamp(24px, 7vw, 52px);
+    margin: clamp(12px, 4vw, 26px) 0 6px;
+    font-weight:700;
+    color:#bd0d3b;
+    text-shadow:0 2px 6px rgba(0,0,0,.18);
+  }
 
-    @keyframes bloom {
-      to {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-    }
-
-    @keyframes appear {
-      to {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-    }
-
-    @keyframes grow {
-      to {
-        opacity: 1;
-        transform: scaleY(1);
-      }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <div class="flower-wrapper">
-    <div class="flower">
-      <div class="petal petal1"></div>
-      <div class="petal petal2"></div>
-      <div class="petal petal3"></div>
-      <div class="petal petal4"></div>
-      <div class="center"></div>
+
+  <main class="card">
+    <!-- Corazón grande -->
+    <div id="hearts" class="hearts" aria-hidden="true"></div>
+
+    <!-- Muñeco + párrafo -->
+    <div class="muneco-section">
+      <figure class="muneco-wrap">
+        <img class="muneco" src="https://i.pinimg.com/564x/28/6b/58/286b58618e81d885e270cc2f362f6e47.jpg" alt="muñeco enviando un corazón">
+        <span class="mini-heart">💗</span>
+      </figure>
+
+      <div class="side-text">
+         Para Aby:).  
+         Bueno a la hora que veas esto ya ha de ser de mañana y quiero decirte mi amor   
+         Feliz inicio de semana mi vida 💕 échale ganas preciosa, sé que andas cansada y estresada, 
+         pero recuerda que eres una niña súper inteligente, fuerte y capaz de muchas cosas.  
+         Tú puedes con todo, aparte no estás sola: me tienes a mí.  
+         Siempre estaré para ti en tus buenos y malos momentos y te amaré sin importar las 
+         dificultades o problemas. Lucharé para estar contigo y esperarte los días, meses o años que sean necesarios 
+         para estar a tu lado, amándote y siendo fiel.  
+         ¡TE AMO! 💖
+      </div>
     </div>
-    <div class="stem"></div>
-  </div>
 
-  <div class="message">
-    <h1>Para ti, mi amor 💖</h1>
-    <p>
-      Sabes amor mío :) hoy me puse a pensar qué te puedo regalar, y decidí darte una flor donde sus flores jamás se marchiten como el amor mío que nunca se marchitará por ti
-      Solo quiero recordarte que eres lo más valioso que tengo eres mi único propósito en esta vida es amarte, cuidarte y envejecer a tu lado
-      Suena apresurado y aún tenemos toda una vida por delante pero quiero vivirla contigo porque la vida sin ti no tiene sentido
-      Tal vez digas "es una falacia" y se suena loco (cómo la vida no va a tener sentido por alguien) Pero creeme tú no lo entenderas porque
-      tú eres ese alguien que me hace levantarme sonriendo ese alguien donde mi corazón es feliz y quiero que sea así mientras tú me lo permitas.
-      Solo quiero que seas tú en mi vida y así lo será mientras mi corazón palpite siempre te elegirá a ti TE AMO
-    </p>
-  </div>
+    <p class="msg">TE amo (babosa)</p>
+  </main>
 
-  <audio autoplay loop>
-    <source src="https://www.youtube.com/watch?v=zBTDS5dv0yg" type="audio/mpeg">
-    Tu navegador no soporta audio HTML.
-  </audio>
+<script>
+  function createHeartSVG(){
+    const xmlns = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(xmlns, "svg");
+    svg.setAttribute("viewBox","0 0 32 29");
+    svg.setAttribute("class","h");
+    const path = document.createElementNS(xmlns, "path");
+    path.setAttribute("d",
+      "M23.6,1.5c-2.6,0-4.9,1.3-6,3.3c-1.1-2-3.4-3.3-6-3.3C7.1,1.5,4,4.6,4,8.6C4,17.6,16,24,16,24s12-6.4,12-15.4 C28,4.6,24.9,1.5,23.6,1.5z");
+    path.setAttribute("fill","var(--heart)");
+    svg.appendChild(path);
+    return svg;
+  }
+
+  const pattern = [
+    "00111100000111100",
+    "011111100001111110",
+    "11111111011111111",
+    "11111111111111111",
+    "01111111111111110",
+    "00111111111111100",
+    "00011111111111000",
+    "00001111111110000",
+    "00000111111100000",
+    "00000011111000000",
+    "00000001110000000",
+    "00000000100000000"
+  ];
+
+  const grid = document.getElementById("hearts");
+  const cols = pattern[0].length;
+  grid.style.setProperty("--cols", cols);
+
+  let delay = 0;
+  const step = 50; // velocidad de aparición
+  pattern.forEach(row => {
+    row.split("").forEach(bit => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      if (bit === "1"){
+        const h = createHeartSVG();
+        h.style.animationDelay = `${delay}ms`;
+        delay += step;
+        cell.appendChild(h);
+      }
+      grid.appendChild(cell);
+    });
+  });
+</script>
 </body>
 </html>
