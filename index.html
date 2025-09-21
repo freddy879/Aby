@@ -1,190 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>I Love You</title>
-<style>
-  :root{
-    --cell: clamp(14px, 5vw, 28px);
-    --gap: clamp(2px, 1vw, 7px);
-    --pink-bg: #fff8fa;
-    --heart: #d3113a;
-    --heart-shadow: rgba(0,0,0,.25);
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Un detalle para ti ❤️</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#ff6b6b;
+      --accent2:#ffd166;
+      --muted:#94a3b8;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      background:linear-gradient(135deg,#071020 0%, #0b1b2b 60%);
+      color:#e6eef8;
+      overflow:auto;
+      padding:20px 0;
+    }
+    .card{
+      width:900px; max-width:95%; border-radius:18px; padding:28px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      display:grid; grid-template-columns:1fr 360px; gap:20px; align-items:start;
+      position:relative; z-index:1;
+    }
+    .left{padding:10px;}
+    h1{text-align:center;margin:10px 0 6px;font-size:28px;}
+    p.lead{text-align:center;color:var(--muted);margin:0 0 18px;}
+    .big-number{font-weight:700;color:var(--accent);font-size:44px;letter-spacing:1px;text-align:center;}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; justify-content:center;}
+    .chip{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);}
+    .reveal{text-align:center;margin-top:22px;}
+    .btn{
+      display:inline-block; padding:10px 16px; border-radius:12px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      color:#071020;font-weight:700;text-decoration:none; cursor:pointer; border:none; font-size:15px;
+      box-shadow:0 6px 18px rgba(255,107,107,0.12);
+    }
+    .btn.ghost{background:transparent;color:var(--accent2);border:1px solid rgba(255,209,102,0.08);}
+    .right{padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));border-radius:12px;text-align:center;margin-top:20px;}
+    .ledger{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;margin-bottom:12px;}
+    .heart{font-size:46px;margin:8px 0;transform-origin:center;display:inline-block;}
+    .note{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));padding:12px;border-radius:10px;color:var(--muted);font-size:14px;}
+    footer{grid-column:1/-1;margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;}
 
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    min-height:100svh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#ffffff;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  }
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+    .heart{color:var(--accent);animation:floaty 2s ease-in-out infinite;}
+    .word{position:absolute;top:-40px;font-size:20px;font-weight:700;color:var(--accent2);opacity:0.9;pointer-events:none;animation:fall 6s linear forwards;}
+    @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0;}}
 
-  .card{
-    width:min(92vw, 820px);
-    background:var(--pink-bg);
-    border-radius:22px;
-    box-shadow:0 18px 50px rgba(0,0,0,.08);
-    padding:clamp(18px, 4vw, 38px);
-    position:relative;
-  }
+    /* Bloque estilo Spotify */
+    .music-block{
+      display:flex; flex-direction:column; align-items:center; margin-bottom:16px;
+    }
+    .music-cover{
+      width:100%; max-width:250px; border-radius:12px; margin-bottom:8px;
+    }
+    audio{
+      width:100%; border-radius:12px;
+    }
 
-  /* CORAZÓN GRANDE */
-  .hearts{
-    --cols: 17;
-    display:grid;
-    grid-template-columns: repeat(var(--cols), var(--cell));
-    gap:var(--gap);
-    justify-content:center;
-    margin: 4px auto clamp(10px, 4vw, 24px);
-    width:100%;
-  }
-
-  .cell{ width:var(--cell); height:var(--cell); }
-
-  .h{
-    width:100%; height:100%;
-    display:block;
-    filter: drop-shadow(0 .7px 0.3px #fff6f8)
-            drop-shadow(0 1.4px 1.6px var(--heart-shadow));
-    transform:scale(.0);
-    opacity:0;
-    animation: pop .55s ease-out forwards;
-  }
-
-  @keyframes pop{
-    40%{ transform:scale(1.15); opacity:.9; }
-    100%{ transform:scale(1); opacity:1; }
-  }
-
-  /* MUÑECO + TEXTO */
-  .muneco-section{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:clamp(15px, 5vw, 50px);
-    margin-top: clamp(12px, 4vw, 28px);
-    flex-wrap:wrap;
-    text-align:justify;
-  }
-  .muneco-wrap{
-    position:relative;
-  }
-  .muneco{
-    width:clamp(90px, 26vw, 180px);
-    height:auto;
-    display:block;
-  }
-  .mini-heart{
-    position:absolute;
-    left:72%;
-    top:22%;
-    font-size:clamp(14px, 4vw, 22px);
-    animation: floatUp 1.8s ease-in-out infinite;
-    user-select:none;
-  }
-  @keyframes floatUp{
-    0%{ transform: translateY(0) scale(.9); opacity:.8; }
-    60%{ transform: translateY(-16px) scale(1); opacity:1; }
-    100%{ transform: translateY(-26px) scale(1.05); opacity:0; }
-  }
-
-  /* Párrafo */
-  .side-text{
-    font-size:clamp(16px, 4.5vw, 22px);
-    font-weight:400;
-    color:#333;
-    max-width:380px;
-    line-height:1.5;
-  }
-
-  /* Mensaje final */
-  .msg{
-    text-align:center;
-    font-size:clamp(24px, 7vw, 52px);
-    margin: clamp(12px, 4vw, 26px) 0 6px;
-    font-weight:700;
-    color:#bd0d3b;
-    text-shadow:0 2px 6px rgba(0,0,0,.18);
-  }
-
-</style>
+    @media (max-width:820px){.card{grid-template-columns:1fr;}}
+  </style>
 </head>
 <body>
+  <div class="card">
+    <div class="left">
+      <h1>Para mi contadora favorita ❤️</h1>
 
-  <main class="card">
-    <!-- Corazón grande -->
-    <div id="hearts" class="hearts" aria-hidden="true"></div>
+      <div class="music-block">
+        <img src="Imagen de WhatsApp 2025-09-21 a las 01.16.10_175188c2.jpg" alt="Portada de canción" class="music-cover">
+        <audio autoplay loop controls>
+          <source src="jesse--joy--chocolate-letra.mp3" type="audio/mpeg">
+          Tu navegador no soporta el audio.
+        </audio>
+      </div>
 
-    <!-- Muñeco + párrafo -->
-    <div class="muneco-section">
-      <figure class="muneco-wrap">
-        <img class="muneco" src="https://i.pinimg.com/564x/28/6b/58/286b58618e81d885e270cc2f362f6e47.jpg" alt="muñeco enviando un corazón">
-        <span class="mini-heart">💗</span>
-      </figure>
+      <p class="lead">Holis mi amor, solo quería decirte que sé que a veces las cosas no salen como esperamos, pero quiero que sepas que estoy inmensamente orgulloso de ti. Cada esfuerzo que haces para mejorar día tras día me llena de felicidad y admiración. Eres una persona maravillosa y capaz de lograr todo lo que te propongas, y nadie debería desanimarte. Hazme el hombre más feliz del mundo al saber que alcanzaste tus metas y te graduaste. Y si algún día no estoy a tu lado, quiero que sepas que desde el cielo seguiré sintiéndome orgulloso de ti. Te amo, y créeme, este es el te amo más sincero que alguien pueda sentir.</p>  
 
-      <div class="side-text">
-         Para Aby:)
+      <div class="big-number" id="lines">0</div>
+      
+      <div class="reveal">
+        <button class="btn" id="revealBtn">Mostrar mensaje especial</button>
+        <button class="btn ghost" id="printBtn">Imprimir / Guardar PDF</button>
+      </div>
+      <div id="mensaje" class="note hidden" style="margin-top:14px;">
+        <strong>Para Aby:</strong>
+        <div style="margin-top:8px;">Nunca te voy a dejar ir porque en la biblia dice ¡ econtre al amor de mi vida! lo abrace y no lo solte.  cantares3:14</div>
+        <div style="margin-top:10px;font-weight:700;color:var(--accent);">— Siempre tuyo</div>
       </div>
     </div>
 
-    <p class="msg">TE Quiero(babosa)</p>
-  </main>
+    <div class="right">
+      <div class="ledger">
+        <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="6" width="116" height="68" rx="6" fill="#071428" stroke="#122534" stroke-width="2"/>
+          <path d="M12 22h96" stroke="#0fa3ff" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M12 32h60" stroke="#8be9ff" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M12 42h40" stroke="#8be9ff" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="92" cy="48" r="10" fill="#ffd166"/>
+          <text x="88" y="52" font-size="10" fill="#072027" font-family="monospace">$</text>
+        </svg>
+      </div>
+      <div class="heart" id="heart">❤</div>
+      <div style="height:10px"></div>
+      <div class="note">Siempre seras el regalo mas bonito que Dios me pudo dar.</div>
+      <div class="confetti-wrap" style="margin-top:12px;position:relative;">
+        <div id="confetti" class="confetti"></div>
+      </div>
+    </div>
 
-<script>
-  function createHeartSVG(){
-    const xmlns = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(xmlns, "svg");
-    svg.setAttribute("viewBox","0 0 32 29");
-    svg.setAttribute("class","h");
-    const path = document.createElementNS(xmlns, "path");
-    path.setAttribute("d",
-      "M23.6,1.5c-2.6,0-4.9,1.3-6,3.3c-1.1-2-3.4-3.3-6-3.3C7.1,1.5,4,4.6,4,8.6C4,17.6,16,24,16,24s12-6.4,12-15.4 C28,4.6,24.9,1.5,23.6,1.5z");
-    path.setAttribute("fill","var(--heart)");
-    svg.appendChild(path);
-    return svg;
-  }
+   
 
-  const pattern = [
-    "00111100000111100",
-    "011111100001111110",
-    "11111111011111111",
-    "11111111111111111",
-    "01111111111111110",
-    "00111111111111100",
-    "00011111111111000",
-    "00001111111110000",
-    "00000111111100000",
-    "00000011111000000",
-    "00000001110000000",
-    "00000000100000000"
-  ];
-
-  const grid = document.getElementById("hearts");
-  const cols = pattern[0].length;
-  grid.style.setProperty("--cols", cols);
-
-  let delay = 0;
-  const step = 50; // velocidad de aparición
-  pattern.forEach(row => {
-    row.split("").forEach(bit => {
-      const cell = document.createElement("div");
-      cell.className = "cell";
-      if (bit === "1"){
-        const h = createHeartSVG();
-        h.style.animationDelay = `${delay}ms`;
-        delay += step;
-        cell.appendChild(h);
+  <script>
+    const linesEl = document.getElementById('lines');
+    function animateValue(target,start,end,duration){
+      let startTime=null;
+      function step(timestamp){
+        if(!startTime) startTime=timestamp;
+        const progress=Math.min((timestamp-startTime)/duration,1);
+        const current=Math.floor(progress*(end-start)+start);
+        target.textContent=current.toLocaleString()+' razones para amarte';
+        if(progress<1) window.requestAnimationFrame(step);
       }
-      grid.appendChild(cell);
+      window.requestAnimationFrame(step);
+    }
+    animateValue(linesEl,0,108,1600);
+
+    const btn=document.getElementById('revealBtn');
+    const mensaje=document.getElementById('mensaje');
+    btn.addEventListener('click',()=>{
+      mensaje.classList.remove('hidden');
+      btn.textContent='Mensaje mostrado ✓';
+      btn.disabled=true;
+      burstConfetti();
+      pulseHeart();
     });
-  });
-</script>
+
+    document.getElementById('printBtn').addEventListener('click',()=>{window.print();});
+
+    function burstConfetti(){
+      const wrap=document.getElementById('confetti');wrap.innerHTML='';
+      const colors=['#ffd166','#ff6b6b','#6bcB77','#9b5de5','#00b4d8'];
+      for(let i=0;i<24;i++){
+        const el=document.createElement('div');
+        el.className='spark';
+        el.style.left=(Math.random()*100)+'%';
+        el.style.top=(Math.random()*20)+'%';
+        el.style.background=colors[i%colors.length];
+        el.style.transform='translateY(0) rotate('+ (Math.random()*360) +'deg)';
+        el.style.width=(6+Math.random()*8)+'px';
+        el.style.height=el.style.width;
+        el.style.opacity=0.95;
+        el.style.animation=`confettiMove ${1.2+Math.random()*1.4}s forwards ease-out`;
+        wrap.appendChild(el);
+      }
+    }
+
+    function pulseHeart(){
+      const heart=document.getElementById('heart');
+      heart.animate([{transform:'scale(1)'},{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:800,iterations:6});
+    }
+
+    function lluviaPalabras(){
+      for(let i=0;i<20;i++){
+        const span=document.createElement('span');
+        span.className='word';
+        span.textContent='Te quiero';
+        span.style.left=(Math.random()*90)+'vw';
+        span.style.fontSize=(16+Math.random()*18)+'px';
+        span.style.color=Math.random()>0.5?'var(--accent)':'var(--accent2)';
+        document.body.appendChild(span);
+        setTimeout(()=>span.remove(),6000);
+      }
+    }
+    window.onload=()=>{
+      lluviaPalabras();
+      setInterval(lluviaPalabras,5000);
+    }
+
+    const style=document.createElement('style');
+    style.textContent=`@keyframes confettiMove{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(140px) rotate(360deg)}}`;
+    document.head.appendChild(style);
+  </script>
 </body>
 </html>
-
-
