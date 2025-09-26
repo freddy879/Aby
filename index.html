@@ -1,195 +1,149 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Un detalle para ti ❤️</title>
-  <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#ff6b6b;
-      --accent2:#ffd166;
-      --muted:#94a3b8;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      background:linear-gradient(135deg,#071020 0%, #0b1b2b 60%);
-      color:#e6eef8;
-      overflow:auto;
-      padding:20px 0;
-    }
-    .card{
-      width:900px; max-width:95%; border-radius:18px; padding:28px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow:0 10px 30px rgba(2,6,23,0.6);
-      display:grid; grid-template-columns:1fr 360px; gap:20px; align-items:start;
-      position:relative; z-index:1;
-    }
-    .left{padding:10px;}
-    h1{text-align:center;margin:10px 0 6px;font-size:28px;}
-    p.lead{text-align:center;color:var(--muted);margin:0 0 18px;}
-    .big-number{font-weight:700;color:var(--accent);font-size:44px;letter-spacing:1px;text-align:center;}
-    .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; justify-content:center;}
-    .chip{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);}
-    .reveal{text-align:center;margin-top:22px;}
-    .btn{
-      display:inline-block; padding:10px 16px; border-radius:12px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      color:#071020;font-weight:700;text-decoration:none; cursor:pointer; border:none; font-size:15px;
-      box-shadow:0 6px 18px rgba(255,107,107,0.12);
-    }
-    .btn.ghost{background:transparent;color:var(--accent2);border:1px solid rgba(255,209,102,0.08);}
-    .right{padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));border-radius:12px;text-align:center;margin-top:20px;}
-    .ledger{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;margin-bottom:12px;}
-    .heart{font-size:46px;margin:8px 0;transform-origin:center;display:inline-block;}
-    .note{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));padding:12px;border-radius:10px;color:var(--muted);font-size:14px;}
-    footer{grid-column:1/-1;margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notas de Amor y Versículos</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #fceabb, #f8b500);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 20px;
+  }
 
-    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-    .heart{color:var(--accent);animation:floaty 2s ease-in-out infinite;}
-    .word{position:absolute;top:-40px;font-size:20px;font-weight:700;color:var(--accent2);opacity:0.9;pointer-events:none;animation:fall 6s linear forwards;}
-    @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0;}}
+  h1 {
+    text-align: center;
+    color: #4b2e83;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+  }
 
-    /* Bloque estilo Spotify */
-    .music-block{
-      display:flex; flex-direction:column; align-items:center; margin-bottom:16px;
-    }
-    .music-cover{
-      width:100%; max-width:250px; border-radius:12px; margin-bottom:8px;
-    }
-    audio{
-      width:100%; border-radius:12px;
-    }
+  #verseDisplay {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #3b1f70;
+    font-weight: 600;
+    max-width: 90%;
+    background: rgba(255,255,255,0.8);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
 
-    @media (max-width:820px){.card{grid-template-columns:1fr;}}
-  </style>
+  button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #4b2e83;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #6234a3;
+  }
+
+  select {
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
 </head>
 <body>
-  <div class="card">
-    <div class="left">
-      <h1>Para mi contadora favorita ❤️</h1>
 
-      <div class="music-block">
-        <img src="Imagen de WhatsApp 2025-09-21 a las 01.16.10_175188c2.jpg" alt="Portada de canción" class="music-cover">
-        <audio autoplay loop controls>
-          <source src="jesse--joy--chocolate-letra.mp3" type="audio/mpeg">
-          Tu navegador no soporta el audio.
-        </audio>
-      </div>
+<h1>Notas de Amor y Versículos</h1>
+<h3>Yo estare contigo y no te abandonare hasta cumplir lo que te habia
+   prometido te cuidare y te amare por donde sea que vayas mi Aby (TE AMO )</h3>
+<select id="mood">
+  <option value="happy">Feliz / Amoroso</option>
+  <option value="anxious">Ansioso</option>
+  <option value="lonely">Solitario</option>
+  <option value="sad">Triste</option>
+</select>
+<button id="pickBtn">Elegir versículo</button>
+<div id="verseDisplay"></div>
 
-      <p class="lead">Holis mi amor, solo quería decirte que sé que a veces las cosas no salen como esperamos, pero quiero que sepas que estoy inmensamente orgulloso de ti. Cada esfuerzo que haces para mejorar día tras día me llena de felicidad y admiración. Eres una persona maravillosa y capaz de lograr todo lo que te propongas, y nadie debería desanimarte. Hazme el hombre más feliz del mundo al saber que alcanzaste tus metas y te graduaste. Y si algún día no estoy a tu lado, quiero que sepas que desde el cielo seguiré sintiéndome orgulloso de ti. Te amo, y créeme, este es el te amo más sincero que alguien pueda sentir.</p>  
+<script>
+  const verses = [
+    // Feliz / Amoroso
+    {text:"Proverbios 17:22 - Un corazón alegre es medicina para el alma; la alegría nos hace fuertes.", mood:"happy"},
+    {text:"Filipenses 4:4 - Alégrate siempre en Dios; su amor llena tu vida de felicidad.", mood:"happy"},
+    {text:"Salmo 118:24 - Hoy es un regalo de Dios; disfruta y sonríe con gratitud.", mood:"happy"},
+    {text:"Juan 15:12 - Ama a los demás como Dios te ama a ti.", mood:"happy"},
+    {text:"1 Juan 4:7 - Amémonos unos a otros, porque el amor viene de Dios.", mood:"happy"},
+    {text:"Romanos 12:12 - Mantente alegre, paciente en los problemas y siempre confiando en Dios.", mood:"happy"},
+    {text:"Salmo 16:11 - Dios nos guía hacia la vida plena y la verdadera alegría.", mood:"happy"},
+    {text:"Proverbios 3:17 - Seguir a Dios trae paz y bienestar a nuestra vida.", mood:"happy"},
+    {text:"Salmo 100:1-2 - Celebra a Dios con alegría y gratitud todos los días.", mood:"happy"},
+    {text:"Efesios 5:2 - Camina en amor y comparte bondad con quienes te rodean.", mood:"happy"},
 
-      <div class="big-number" id="lines">0</div>
-      
-      <div class="reveal">
-        <button class="btn" id="revealBtn">Mostrar mensaje especial</button>
-        <button class="btn ghost" id="printBtn">Imprimir / Guardar PDF</button>
-      </div>
-      <div id="mensaje" class="note hidden" style="margin-top:14px;">
-        <strong>Para Aby:</strong>
-        <div style="margin-top:8px;">Nunca te voy a dejar ir porque en la biblia dice ¡ econtre al amor de mi vida! lo abrace y no lo solte.  cantares3:14</div>
-        <div style="margin-top:10px;font-weight:700;color:var(--accent);">— Siempre tuyo</div>
-      </div>
-    </div>
+    // Ansioso
+    {text:"Filipenses 4:6 - No te angusties por nada; habla con Dios y Él te dará paz.", mood:"anxious"},
+    {text:"1 Pedro 5:7 - Entrega todas tus preocupaciones a Dios, Él cuida de ti.", mood:"anxious"},
+    {text:"Isaías 41:10 - No tengas miedo; Dios está contigo y te da fuerzas.", mood:"anxious"},
+    {text:"Mateo 6:34 - No te preocupes por mañana; Dios te acompaña hoy.", mood:"anxious"},
+    {text:"Salmo 34:4 - Clama a Dios en tus ansiedades y Él escuchará tu corazón.", mood:"anxious"},
+    {text:"Juan 14:27 - La paz de Dios puede calmar tu corazón ansioso.", mood:"anxious"},
+    {text:"Salmo 55:22 - Echa tus cargas sobre Dios y Él te sostendrá.", mood:"anxious"},
+    {text:"Romanos 8:28 - Todo coopera para tu bien, incluso los momentos difíciles.", mood:"anxious"},
+    {text:"Proverbios 12:25 - La preocupación aprieta el corazón, pero un buen consejo lo alivia.", mood:"anxious"},
+    {text:"Salmo 46:10 - Quédate quieto y confía; Dios siempre tiene el control.", mood:"anxious"},
 
-    <div class="right">
-      <div class="ledger">
-        <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="6" width="116" height="68" rx="6" fill="#071428" stroke="#122534" stroke-width="2"/>
-          <path d="M12 22h96" stroke="#0fa3ff" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M12 32h60" stroke="#8be9ff" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M12 42h40" stroke="#8be9ff" stroke-width="1.4" stroke-linecap="round"/>
-          <circle cx="92" cy="48" r="10" fill="#ffd166"/>
-          <text x="88" y="52" font-size="10" fill="#072027" font-family="monospace">$</text>
-        </svg>
-      </div>
-      <div class="heart" id="heart">❤</div>
-      <div style="height:10px"></div>
-      <div class="note">Siempre seras el regalo mas bonito que Dios me pudo dar.</div>
-      <div class="confetti-wrap" style="margin-top:12px;position:relative;">
-        <div id="confetti" class="confetti"></div>
-      </div>
-    </div>
+    // Solitario
+    {text:"Deuteronomio 31:6 - Dios está contigo y nunca te dejará solo.", mood:"lonely"},
+    {text:"Salmo 23:1 - Con Dios como tu guía, nunca caminarás solo.", mood:"lonely"},
+    {text:"Isaías 41:13 - Dios te sostiene con su mano poderosa.", mood:"lonely"},
+    {text:"Josué 1:9 - Sé fuerte y valiente; Dios está a tu lado en todo momento.", mood:"lonely"},
+    {text:"Salmo 27:10 - Aunque tus seres queridos se alejen, Dios siempre estará contigo.", mood:"lonely"},
+    {text:"Hebreos 13:5 - Dios dice: 'Nunca te dejaré, nunca te abandonaré'.", mood:"lonely"},
+    {text:"Salmo 68:5 - Dios es el padre de los huérfanos y protector de los solitarios.", mood:"lonely"},
+    {text:"Isaías 43:2 - Cuando pases por aguas profundas, Dios estará contigo.", mood:"lonely"},
+    {text:"Salmo 139:7-10 - No hay lugar donde puedas escapar del amor de Dios.", mood:"lonely"},
+    {text:"Mateo 28:20 - Dios está contigo todos los días, hasta el fin de los tiempos.", mood:"lonely"},
 
-   
+    // Triste
+    {text:"Salmo 23:4 - Aunque pasemos momentos difíciles, Dios nos acompaña y nos da paz.", mood:"sad"},
+    {text:"Salmo 34:18 - Dios está cerca de quienes sufren y cuida de su corazón.", mood:"sad"},
+    {text:"Mateo 11:28 - Ven a Dios con tus cargas, y Él te dará descanso y alivio.", mood:"sad"},
+    {text:"Jeremías 29:11 - Dios tiene planes de bienestar para ti; confía en Él.", mood:"sad"},
+    {text:"Salmo 147:3 - Dios sana nuestros corazones cuando estamos tristes.", mood:"sad"},
+    {text:"Isaías 43:18-19 - Olvida lo pasado y confía en que Dios hace cosas nuevas y maravillosas.", mood:"sad"},
+    {text:"2 Corintios 1:3-4 - Dios nos consuela para que podamos consolar a otros.", mood:"sad"},
+    {text:"Salmo 9:9 - Dios es un refugio seguro cuando nos sentimos angustiados.", mood:"sad"},
+    {text:"Juan 14:27 - Dios te da paz, no como el mundo, sino una paz que llena tu corazón.", mood:"sad"},
+    {text:"Salmo 42:11 - Espera en Dios y ten esperanza; Él traerá alegría a tu corazón.", mood:"sad"}
+  ];
 
-  <script>
-    const linesEl = document.getElementById('lines');
-    function animateValue(target,start,end,duration){
-      let startTime=null;
-      function step(timestamp){
-        if(!startTime) startTime=timestamp;
-        const progress=Math.min((timestamp-startTime)/duration,1);
-        const current=Math.floor(progress*(end-start)+start);
-        target.textContent=current.toLocaleString()+' razones para amarte';
-        if(progress<1) window.requestAnimationFrame(step);
-      }
-      window.requestAnimationFrame(step);
+  const verseDisplay = document.getElementById('verseDisplay');
+  const pickBtn = document.getElementById('pickBtn');
+  const moodEl = document.getElementById('mood');
+
+  pickBtn.addEventListener('click', () => {
+    const mood = moodEl.value;
+    const filtered = verses.filter(v => v.mood === mood);
+    if(filtered.length === 0){
+      verseDisplay.textContent = "No hay versículos para este estado.";
+      return;
     }
-    animateValue(linesEl,0,108,1600);
+    const randomVerse = filtered[Math.floor(Math.random() * filtered.length)];
+    verseDisplay.textContent = randomVerse.text;
+  });
+</script>
 
-    const btn=document.getElementById('revealBtn');
-    const mensaje=document.getElementById('mensaje');
-    btn.addEventListener('click',()=>{
-      mensaje.classList.remove('hidden');
-      btn.textContent='Mensaje mostrado ✓';
-      btn.disabled=true;
-      burstConfetti();
-      pulseHeart();
-    });
-
-    document.getElementById('printBtn').addEventListener('click',()=>{window.print();});
-
-    function burstConfetti(){
-      const wrap=document.getElementById('confetti');wrap.innerHTML='';
-      const colors=['#ffd166','#ff6b6b','#6bcB77','#9b5de5','#00b4d8'];
-      for(let i=0;i<24;i++){
-        const el=document.createElement('div');
-        el.className='spark';
-        el.style.left=(Math.random()*100)+'%';
-        el.style.top=(Math.random()*20)+'%';
-        el.style.background=colors[i%colors.length];
-        el.style.transform='translateY(0) rotate('+ (Math.random()*360) +'deg)';
-        el.style.width=(6+Math.random()*8)+'px';
-        el.style.height=el.style.width;
-        el.style.opacity=0.95;
-        el.style.animation=`confettiMove ${1.2+Math.random()*1.4}s forwards ease-out`;
-        wrap.appendChild(el);
-      }
-    }
-
-    function pulseHeart(){
-      const heart=document.getElementById('heart');
-      heart.animate([{transform:'scale(1)'},{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:800,iterations:6});
-    }
-
-    function lluviaPalabras(){
-      for(let i=0;i<20;i++){
-        const span=document.createElement('span');
-        span.className='word';
-        span.textContent='Te quiero';
-        span.style.left=(Math.random()*90)+'vw';
-        span.style.fontSize=(16+Math.random()*18)+'px';
-        span.style.color=Math.random()>0.5?'var(--accent)':'var(--accent2)';
-        document.body.appendChild(span);
-        setTimeout(()=>span.remove(),6000);
-      }
-    }
-    window.onload=()=>{
-      lluviaPalabras();
-      setInterval(lluviaPalabras,5000);
-    }
-
-    const style=document.createElement('style');
-    style.textContent=`@keyframes confettiMove{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(140px) rotate(360deg)}}`;
-    document.head.appendChild(style);
-  </script>
 </body>
 </html>
