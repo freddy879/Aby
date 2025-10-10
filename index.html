@@ -1,150 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notas de Amor y Versículos</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #fceabb, #f8b500);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-    padding: 20px;
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cómo me enamoré de ella — Libro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff3f6;
+      --accent: #ff6b81;
+      --text: #333;
+      --muted: #6b7280;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    html, body { height: 100%; overflow-x: hidden; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text);}
+    body { display: flex; justify-content: center; align-items: center; padding: 12px; }
 
-  h1 {
-    text-align: center;
-    color: #4b2e83;
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-  }
+    .book {
+      background:white;
+      border-radius:16px;
+      max-width:800px;
+      width:100%;
+      min-height:500px;
+      height:86vh;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      box-shadow:0 8px 24px rgba(0,0,0,0.1);
+    }
+    @media(max-width:600px){
+      .book { height:auto; min-height:100vh; }
+    }
 
-  #verseDisplay {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 18px;
-    color: #3b1f70;
-    font-weight: 600;
-    max-width: 90%;
-    background: rgba(255,255,255,0.8);
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
+    header {
+      background: linear-gradient(90deg,#ffd6dd,#ffeedd);
+      text-align:center;
+      padding:14px;
+      font-family: 'Playfair Display', serif;
+      font-size:1.5rem;
+      color: #a62b43;
+    }
 
-  button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 12px;
-    background: #4b2e83;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    transition: background 0.3s;
-  }
+    main{
+      flex:1;
+      display:flex;
+      overflow:hidden;
+      position:relative;
+    }
 
-  button:hover {
-    background: #6234a3;
-  }
+    .pages{
+      display:flex;
+      width:300%;
+      transition: transform 0.5s ease;
+      touch-action: pan-y;
+    }
 
-  select {
-    padding: 10px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-</style>
+    .page{
+      flex:1 0 100%;
+      padding:24px;
+      overflow-y:auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+
+    h2{
+      color:var(--accent);
+      font-family:'Playfair Display', serif;
+      margin-top:0;
+    }
+
+    p{
+      line-height:1.6;
+      margin:0 0 12px 0;
+      font-size:1.1rem;
+      max-width:90%;
+    }
+
+    footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px;
+      background:#fff6f8;
+    }
+
+    .btn{
+      border:none;
+      background:var(--accent);
+      color:white;
+      border-radius:999px;
+      padding:8px 16px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:1rem;
+    }
+    .btn:active{ transform:translateY(1px); }
+
+    .timers{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:12px;
+      justify-content:center;
+    }
+
+    .timer-card{
+      background:linear-gradient(180deg,#fff,#fff8fa);
+      border:1px solid rgba(166,43,67,0.06);
+      padding:10px 12px;
+      border-radius:10px;
+      text-align:center;
+      min-width:150px;
+    }
+
+    .timer-value{ font-weight:700; color:var(--accent); margin-top:6px; }
+    .muted{ color:var(--muted); font-size:0.9rem; }
+
+    .photo{
+      width:100%;
+      max-width:90%;
+      max-height:250px;
+      border-radius:12px;
+      object-fit:cover;
+      margin-top:14px;
+    }
+
+    /* ✅ Mejoras móviles */
+    @media(max-width:600px){
+      h2{font-size:1.25rem;}
+      p{font-size:1rem; line-height:1.5;}
+      .timer-card{min-width:120px; padding:8px;}
+      .btn{padding:12px 20px; font-size:1rem;}
+      .photo{max-height:180px;}
+    }
+  </style>
 </head>
 <body>
+  <div class="book">
+    <header>Cómo me enamoré de ella 💕</header>
+    <main>
+      <div class="pages" id="pages">
+        <section class="page">
+          <h2>🌸 Primera mirada</h2>
+          <p>Fue el <strong>6 de enero de 2025, a las 9:00 p.m.</strong>, cuando la vi por primera vez. El mundo pareció detenerse y su sonrisa iluminó todo. Desde ese momento supe que algo especial había comenzado.</p>
+          <img src="TU_FOTO_AQUI.jpg" alt="Foto especial" class="photo">
+        </section>
 
-<h1>Notas de Amor y Versículos</h1>
-<h3>Yo estare contigo y no te abandonare hasta cumplir lo que te habia
-   prometido te cuidare y te amare por donde sea que vayas mi Aby (TE AMO )</h3>
-<select id="mood">
-  <option value="happy">Feliz / Amoroso</option>
-  <option value="anxious">Ansioso</option>
-  <option value="lonely">Solitario</option>
-  <option value="sad">Triste</option>
-</select>
-<button id="pickBtn">Elegir versículo</button>
-<div id="verseDisplay"></div>
+        <section class="page">
+          <h2>☕ Nuestras conversaciones</h2>
+          <p>Hablábamos horas sin darnos cuenta. Sus historias, sueños y su forma de ver la vida me hicieron sentir en casa. Cada momento compartido nos acercó más y más.</p>
+        </section>
 
-<script>
-  const verses = [
-    // Feliz / Amoroso
-    {text:"Proverbios 17:22 - Un corazón alegre es medicina para el alma; la alegría nos hace fuertes.", mood:"happy"},
-    {text:"Filipenses 4:4 - Alégrate siempre en Dios; su amor llena tu vida de felicidad.", mood:"happy"},
-    {text:"Salmo 118:24 - Hoy es un regalo de Dios; disfruta y sonríe con gratitud.", mood:"happy"},
-    {text:"Juan 15:12 - Ama a los demás como Dios te ama a ti.", mood:"happy"},
-    {text:"1 Juan 4:7 - Amémonos unos a otros, porque el amor viene de Dios.", mood:"happy"},
-    {text:"Romanos 12:12 - Mantente alegre, paciente en los problemas y siempre confiando en Dios.", mood:"happy"},
-    {text:"Salmo 16:11 - Dios nos guía hacia la vida plena y la verdadera alegría.", mood:"happy"},
-    {text:"Proverbios 3:17 - Seguir a Dios trae paz y bienestar a nuestra vida.", mood:"happy"},
-    {text:"Salmo 100:1-2 - Celebra a Dios con alegría y gratitud todos los días.", mood:"happy"},
-    {text:"Efesios 5:2 - Camina en amor y comparte bondad con quienes te rodean.", mood:"happy"},
+        <section class="page">
+          <h2>💖 El momento</h2>
+          <p>Decidí ser honesto y contarle lo que sentía. Su abrazo fue la respuesta más sincera. Desde entonces, nuestro camino continúa lleno de momentos especiales.</p>
+          <div class="timers">
+            <div class="timer-card">
+              <div class="muted">Tiempo desde que nos conocimos</div>
+              <div id="elapsed" class="timer-value">—</div>
+            </div>
+            <div class="timer-card">
+              <div class="muted">Tiempo que falta para 1 año juntos</div>
+              <div id="countdown" class="timer-value">—</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <button class="btn" id="prev">◀ Anterior</button>
+      <button class="btn" id="next">Siguiente ▶</button>
+    </footer>
+  </div>
 
-    // Ansioso
-    {text:"Filipenses 4:6 - No te angusties por nada; habla con Dios y Él te dará paz.", mood:"anxious"},
-    {text:"1 Pedro 5:7 - Entrega todas tus preocupaciones a Dios, Él cuida de ti.", mood:"anxious"},
-    {text:"Isaías 41:10 - No tengas miedo; Dios está contigo y te da fuerzas.", mood:"anxious"},
-    {text:"Mateo 6:34 - No te preocupes por mañana; Dios te acompaña hoy.", mood:"anxious"},
-    {text:"Salmo 34:4 - Clama a Dios en tus ansiedades y Él escuchará tu corazón.", mood:"anxious"},
-    {text:"Juan 14:27 - La paz de Dios puede calmar tu corazón ansioso.", mood:"anxious"},
-    {text:"Salmo 55:22 - Echa tus cargas sobre Dios y Él te sostendrá.", mood:"anxious"},
-    {text:"Romanos 8:28 - Todo coopera para tu bien, incluso los momentos difíciles.", mood:"anxious"},
-    {text:"Proverbios 12:25 - La preocupación aprieta el corazón, pero un buen consejo lo alivia.", mood:"anxious"},
-    {text:"Salmo 46:10 - Quédate quieto y confía; Dios siempre tiene el control.", mood:"anxious"},
+  <script>
+    // Página animada
+    (function(){
+      const pages = document.getElementById('pages');
+      const next = document.getElementById('next');
+      const prev = document.getElementById('prev');
+      let index = 0;
+      const total = 3;
+      function update(){pages.style.transform = `translateX(-${index*100}%)`;}
+      next.addEventListener('click',()=>{if(index<total-1)index++;update();});
+      prev.addEventListener('click',()=>{if(index>0)index--;update();});
+      // swipe mobile
+      let startX=null;
+      pages.addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
+      pages.addEventListener('touchend',e=>{
+        if(startX===null)return;
+        const endX=e.changedTouches[0].clientX;
+        const diff=startX-endX;
+        if(Math.abs(diff)>40){
+          if(diff>0&&index<total-1)index++;
+          if(diff<0&&index>0)index--;
+          update();
+        }
+        startX=null;
+      },{passive:true});
+      update();
+    })();
 
-    // Solitario
-    {text:"Deuteronomio 31:6 - Dios está contigo y nunca te dejará solo.", mood:"lonely"},
-    {text:"Salmo 23:1 - Con Dios como tu guía, nunca caminarás solo.", mood:"lonely"},
-    {text:"Isaías 41:13 - Dios te sostiene con su mano poderosa.", mood:"lonely"},
-    {text:"Josué 1:9 - Sé fuerte y valiente; Dios está a tu lado en todo momento.", mood:"lonely"},
-    {text:"Salmo 27:10 - Aunque tus seres queridos se alejen, Dios siempre estará contigo.", mood:"lonely"},
-    {text:"Hebreos 13:5 - Dios dice: 'Nunca te dejaré, nunca te abandonaré'.", mood:"lonely"},
-    {text:"Salmo 68:5 - Dios es el padre de los huérfanos y protector de los solitarios.", mood:"lonely"},
-    {text:"Isaías 43:2 - Cuando pases por aguas profundas, Dios estará contigo.", mood:"lonely"},
-    {text:"Salmo 139:7-10 - No hay lugar donde puedas escapar del amor de Dios.", mood:"lonely"},
-    {text:"Mateo 28:20 - Dios está contigo todos los días, hasta el fin de los tiempos.", mood:"lonely"},
-
-    // Triste
-    {text:"Isaías66:13 - Dios estará contigo, incluso en tus peores dias.", mood:"sad"},
-    {text:"Eclesiástico 1:23-24 - El que es paciente sufre durante algún tiempo, pero al final se le otorga la felicidad.", mood:"sad"},
-    {text:"Mateo 11:28 - Aunque pases por los mas oscuros de los valles, no temeré mi corazón, porque tú, señor, estas conmigo, tu vara y tu baston me inspiran confianza.", mood:"sad"},
-    {text:"Jeremías 29:11 - Dios tiene planes de bienestar para ti; confía en Él.", mood:"sad"},
-    {text:"Salmo 147:3 - Dios sana nuestros corazones cuando estamos tristes.", mood:"sad"},
-    {text:"Isaías 43:18-19 - Olvida lo pasado y confía en que Dios hace cosas nuevas y maravillosas.", mood:"sad"},
-    {text:"2 Corintios 1:3-4 - Dios nos consuela para que podamos consolar a otros.", mood:"sad"},
-    {text:"Salmo 9:9 - Dios es un refugio seguro cuando nos sentimos angustiados.", mood:"sad"},
-    {text:"Juan 14:27 - Dios te da paz, no como el mundo, sino una paz que llena tu corazón.", mood:"sad"},
-    {text:"Salmo 42:11 - Espera en Dios y ten esperanza; Él traerá alegría a tu corazón.", mood:"sad"}
-  ];
-
-  const verseDisplay = document.getElementById('verseDisplay');
-  const pickBtn = document.getElementById('pickBtn');
-  const moodEl = document.getElementById('mood');
-
-  pickBtn.addEventListener('click', () => {
-    const mood = moodEl.value;
-    const filtered = verses.filter(v => v.mood === mood);
-    if(filtered.length === 0){
-      verseDisplay.textContent = "No hay versículos para este estado.";
-      return;
-    }
-    const randomVerse = filtered[Math.floor(Math.random() * filtered.length)];
-    verseDisplay.textContent = randomVerse.text;
-  });
-</script>
-
+    // Timers
+    (function(){
+      const startDate=new Date('2025-01-06T21:00:00');
+      const anniversary=new Date('2026-01-06T21:00:00');
+      const elapsedEl=document.getElementById('elapsed');
+      const countdownEl=document.getElementById('countdown');
+      function formatElapsed(ms){
+        const days=Math.floor(ms/(1000*60*60*24));
+        const hours=Math.floor((ms/(1000*60*60))%24);
+        const mins=Math.floor((ms/(1000*60))%60);
+        return `${days} días, ${hours} h, ${mins} min`;
+      }
+      function formatCountdown(ms){
+        if(ms<=0)return '¡Ya cumplimos 1 año!';
+        const days=Math.floor(ms/(1000*60*60*24));
+        const hours=Math.floor((ms/(1000*60*60))%24);
+        const mins=Math.floor((ms/(1000*60))%60);
+        return `${days} días, ${hours} h, ${mins} min`;
+      }
+      function update(){
+        const now=new Date();
+        const elapsed=Math.max(0,now-startDate);
+        const left=anniversary-now;
+        elapsedEl.textContent=formatElapsed(elapsed);
+        countdownEl.textContent=formatCountdown(left);
+      }
+      update();
+      setInterval(update,30000);
+    })();
+  </script>
 </body>
 </html>
-
