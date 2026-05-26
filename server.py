@@ -67,24 +67,16 @@ def get_access_token():
 # HOME
 # ==========================================
 
-@app.route("/")
-def home():
-
-    return jsonify({
-        "status": "online",
-        "service": "BEBIDASya Zoom API"
-    })
-
-# ==========================================
-# CREAR REUNIÓN
-# ==========================================
-
 @app.route("/create-meeting", methods=["POST"])
 def create_meeting():
 
     try:
 
+        print("\n========== CREANDO REUNION ==========\n")
+
         token = get_access_token()
+
+        print("TOKEN OK")
 
         headers = {
             "Authorization": f"Bearer {token}",
@@ -127,27 +119,25 @@ def create_meeting():
 
         )
 
-        meeting_data = response.json()
+        print("\nSTATUS CODE:")
+        print(response.status_code)
 
-        print("\n====================")
-        print("MEETING RESPONSE")
-        print("====================")
-        print(meeting_data)
+        print("\nRAW RESPONSE:")
+        print(response.text)
+
+        meeting_data = response.json()
 
         return jsonify(meeting_data)
 
     except Exception as e:
 
-        print("\n====================")
-        print("ERROR")
-        print("====================")
+        print("\n========== ERROR ==========")
         print(str(e))
 
         return jsonify({
             "success": False,
             "error": str(e)
         }), 500
-
 # ==========================================
 # OBTENER REUNIONES
 # ==========================================
