@@ -85,14 +85,25 @@ def create_meeting():
 
     try:
 
+        print("\n========================")
+        print("CREANDO REUNION")
+        print("========================")
+
+        print("ACCOUNT_ID:", ACCOUNT_ID)
+        print("CLIENT_ID:", CLIENT_ID)
+        print("CLIENT_SECRET:", CLIENT_SECRET)
+
         token = get_access_token()
+
+        print("\nTOKEN OBTENIDO:")
+        print(token)
 
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json"
         }
 
-        meeting_body = {
+        body = {
 
             "topic": "BEBIDASya Sala",
 
@@ -101,18 +112,10 @@ def create_meeting():
             "settings": {
 
                 "host_video": True,
-
                 "participant_video": True,
-
                 "join_before_host": True,
-
                 "mute_upon_entry": False,
-
-                "waiting_room": False,
-
-                "audio": "both",
-
-                "auto_recording": "none"
+                "waiting_room": False
 
             }
 
@@ -121,13 +124,13 @@ def create_meeting():
         response = requests.post(
             "https://api.zoom.us/v2/users/me/meetings",
             headers=headers,
-            json=meeting_body
+            json=body
         )
 
-        print("\nMEETING STATUS:")
+        print("\nSTATUS:")
         print(response.status_code)
 
-        print("\nMEETING RESPONSE:")
+        print("\nRESPUESTA ZOOM:")
         print(response.text)
 
         return jsonify(response.json())
