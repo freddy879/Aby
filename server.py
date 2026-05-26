@@ -19,6 +19,12 @@ CORS(app)
 ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
 CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
 CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
+print("\n====================")
+print("ZOOM VARIABLES")
+print("====================")
+print("ACCOUNT_ID:", ACCOUNT_ID)
+print("CLIENT_ID:", CLIENT_ID)
+print("CLIENT_SECRET:", CLIENT_SECRET)
 
 # ==========================================
 # HOME
