@@ -222,11 +222,9 @@ def delete_meeting(meeting_id):
 
 if __name__ == "__main__":
 
-    print("\n===================================")
-    print("BEBIDASya Zoom Server")
-    print("===================================")
+    port = int(os.environ.get("PORT", 5000))
 
     app.run(
         host="0.0.0.0",
-        port=5000
+        port=port
     )
