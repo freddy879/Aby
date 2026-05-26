@@ -1,8 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import requests
-import base64
+from pymongo import MongoClient
+from bson import ObjectId
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -13,18 +14,16 @@ app = Flask(__name__)
 CORS(app)
 
 # ==========================================
-# VARIABLES DE ENTORNO
+# MONGODB
 # ==========================================
 
-ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
-CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
-CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
-print("\n====================")
-print("ZOOM VARIABLES")
-print("====================")
-print("ACCOUNT_ID:", ACCOUNT_ID)
-print("CLIENT_ID:", CLIENT_ID)
-print("CLIENT_SECRET:", CLIENT_SECRET)
+MONGO_URI = os.getenv("MONGO_URI")
+
+client = MongoClient(MONGO_URI)
+
+db = client["nexus"]
+
+posts_collection = db["posts"]
 
 # ==========================================
 # HOME
@@ -34,184 +33,138 @@ print("CLIENT_SECRET:", CLIENT_SECRET)
 def home():
 
     return jsonify({
-        "status": "online",
-        "service": "BEBIDASya Zoom API"
+        "status":"online",
+        "service":"NEXUS SERVER"
     })
 
 # ==========================================
-# GENERAR TOKEN
+# CREATE POST
 # ==========================================
 
-def get_access_token():
-
-    credentials = f"{CLIENT_ID}:{CLIENT_SECRET}"
-
-    encoded_credentials = base64.b64encode(
-        credentials.encode()
-    ).decode()
-
-    headers = {
-        "Authorization": f"Basic {encoded_credentials}",
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-
-    url = (
-        "https://zoom.us/oauth/token"
-        f"?grant_type=account_credentials"
-        f"&account_id={ACCOUNT_ID}"
-    )
-
-    response = requests.post(
-        url,
-        headers=headers
-    )
-
-    print("\nTOKEN STATUS:")
-    print(response.status_code)
-
-    print("\nTOKEN RESPONSE:")
-    print(response.text)
-
-    data = response.json()
-
-    if "access_token" not in data:
-
-        raise Exception(
-            f"NO SE PUDO GENERAR TOKEN: {data}"
-        )
-
-    return data["access_token"]
-
-# ==========================================
-# CREAR REUNION
-# ==========================================
-
-@app.route("/create-meeting", methods=["POST"])
-def create_meeting():
+@app.route("/posts", methods=["POST"])
+def create_post():
 
     try:
 
-        print("\n============================")
-        print("CREANDO REUNION")
-        print("============================")
+        data = request.json
 
-        print("ACCOUNT_ID =", ACCOUNT_ID)
-        print("CLIENT_ID =", CLIENT_ID)
-        print("CLIENT_SECRET =", CLIENT_SECRET)
+        new_post = {
 
-        token = get_access_token()
+            "author": data.get("author"),
+            "initials": data.get("initials"),
+            "role": data.get("role"),
+            "color": data.get("color"),
 
-        print("\nTOKEN:")
-        print(token)
+            "text": data.get("text"),
 
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
+            "media": data.get("media", []),
+
+            "likes": 0,
+
+            "created_at": datetime.utcnow().isoformat()
+
         }
 
-        body = {
-            "topic": "BEBIDASya Sala",
-            "type": 1,
-            "settings": {
-                "host_video": True,
-                "participant_video": True,
-                "join_before_host": True,
-                "mute_upon_entry": False,
-                "waiting_room": False
-            }
-        }
+        result = posts_collection.insert_one(new_post)
 
-        response = requests.post(
-            "https://api.zoom.us/v2/users/me/meetings",
-            headers=headers,
-            json=body
-        )
+        new_post["_id"] = str(result.inserted_id)
 
-        print("\nZOOM STATUS:")
-        print(response.status_code)
-
-        print("\nZOOM RESPONSE:")
-        print(response.text)
-
-        return jsonify(response.json())
-
-    except Exception as e:
-
-        print("\nERROOOOOOR:")
-        print(str(e))
-
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
-# ==========================================
-# LISTAR REUNIONES
-# ==========================================
-
-@app.route("/meetings")
-def meetings():
-
-    try:
-
-        token = get_access_token()
-
-        headers = {
-            "Authorization": f"Bearer {token}"
-        }
-
-        response = requests.get(
-            "https://api.zoom.us/v2/users/me/meetings",
-            headers=headers
-        )
-
-        return jsonify(response.json())
+        return jsonify(new_post)
 
     except Exception as e:
 
         return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
+            "success":False,
+            "error":str(e)
+        }),500
 
 # ==========================================
-# ELIMINAR REUNION
+# GET POSTS
 # ==========================================
 
-@app.route("/delete-meeting/<meeting_id>", methods=["DELETE"])
-def delete_meeting(meeting_id):
+@app.route("/posts", methods=["GET"])
+def get_posts():
 
     try:
 
-        token = get_access_token()
+        posts = []
 
-        headers = {
-            "Authorization": f"Bearer {token}"
-        }
+        for post in posts_collection.find().sort("_id",-1):
 
-        response = requests.delete(
-            f"https://://api.zoom.us/v2/meetings/{meeting_id}",
-            headers=headers
-        )
+            post["_id"] = str(post["_id"])
 
-        if response.status_code == 204:
+            posts.append(post)
+
+        return jsonify(posts)
+
+    except Exception as e:
+
+        return jsonify({
+            "success":False,
+            "error":str(e)
+        }),500
+
+# ==========================================
+# LIKE POST
+# ==========================================
+
+@app.route("/like/<post_id>", methods=["POST"])
+def like_post(post_id):
+
+    try:
+
+        post = posts_collection.find_one({
+            "_id": ObjectId(post_id)
+        })
+
+        if not post:
 
             return jsonify({
-                "success": True,
-                "message": "Reunión eliminada"
-            })
+                "success":False
+            }),404
+
+        likes = post.get("likes",0) + 1
+
+        posts_collection.update_one(
+            {"_id":ObjectId(post_id)},
+            {"$set":{"likes":likes}}
+        )
 
         return jsonify({
-            "success": False,
-            "response": response.text
+            "success":True,
+            "likes":likes
         })
 
     except Exception as e:
 
         return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
+            "success":False,
+            "error":str(e)
+        }),500
+
+# ==========================================
+# DELETE POST
+# ==========================================
+
+@app.route("/posts/<post_id>", methods=["DELETE"])
+def delete_post(post_id):
+
+    try:
+
+        posts_collection.delete_one({
+            "_id":ObjectId(post_id)
+        })
+
+        return jsonify({
+            "success":True
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success":False,
+            "error":str(e)
+        }),500
 
 # ==========================================
 # START
@@ -219,7 +172,7 @@ def delete_meeting(meeting_id):
 
 if __name__ == "__main__":
 
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT",5000))
 
     app.run(
         host="0.0.0.0",
