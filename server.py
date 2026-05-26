@@ -91,17 +91,17 @@ def create_meeting():
 
     try:
 
-        print("\n========================")
+        print("\n============================")
         print("CREANDO REUNION")
-        print("========================")
+        print("============================")
 
-        print("ACCOUNT_ID:", ACCOUNT_ID)
-        print("CLIENT_ID:", CLIENT_ID)
-        print("CLIENT_SECRET:", CLIENT_SECRET)
+        print("ACCOUNT_ID =", ACCOUNT_ID)
+        print("CLIENT_ID =", CLIENT_ID)
+        print("CLIENT_SECRET =", CLIENT_SECRET)
 
         token = get_access_token()
 
-        print("\nTOKEN OBTENIDO:")
+        print("\nTOKEN:")
         print(token)
 
         headers = {
@@ -110,21 +110,15 @@ def create_meeting():
         }
 
         body = {
-
             "topic": "BEBIDASya Sala",
-
             "type": 1,
-
             "settings": {
-
                 "host_video": True,
                 "participant_video": True,
                 "join_before_host": True,
                 "mute_upon_entry": False,
                 "waiting_room": False
-
             }
-
         }
 
         response = requests.post(
@@ -133,17 +127,17 @@ def create_meeting():
             json=body
         )
 
-        print("\nSTATUS:")
+        print("\nZOOM STATUS:")
         print(response.status_code)
 
-        print("\nRESPUESTA ZOOM:")
+        print("\nZOOM RESPONSE:")
         print(response.text)
 
         return jsonify(response.json())
 
     except Exception as e:
 
-        print("\nERROR:")
+        print("\nERROOOOOOR:")
         print(str(e))
 
         return jsonify({
