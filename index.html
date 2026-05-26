@@ -6,25 +6,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BEBIDASya — Videollamadas</title>
+<title>NEXUS</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://meet.jit.si/external_api.js"></script>
 
 <style>
 
 :root{
   --orange:#ff6b2b;
   --orange2:#ff914d;
-
   --bg:#f4f7fb;
   --card:#ffffff;
-
   --text:#1e293b;
   --muted:#64748b;
-
   --border:#e2e8f0;
-
-  --green:#22c55e;
 }
 
 *{
@@ -44,21 +41,17 @@ body{
 .sidebar{
   width:250px;
   background:white;
-
   border-right:1px solid var(--border);
-
   position:fixed;
   top:0;
   left:0;
   bottom:0;
-
   padding:24px 14px;
 }
 
 .logo{
-  font-size:26px;
+  font-size:28px;
   font-weight:800;
-
   margin-bottom:30px;
 }
 
@@ -74,15 +67,10 @@ body{
 
 .nav a{
   text-decoration:none;
-
   color:var(--muted);
-
   padding:14px;
-
   border-radius:14px;
-
   transition:0.2s;
-
   font-weight:600;
 }
 
@@ -106,39 +94,28 @@ body{
 
 .topbar{
   height:75px;
-
   background:white;
-
   border-bottom:1px solid var(--border);
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   padding:0 30px;
-
   position:sticky;
   top:0;
-
-  z-index:50;
+  z-index:100;
 }
 
 .top-title{
-  font-size:22px;
+  font-size:24px;
   font-weight:800;
 }
 
 .online{
   background:#ecfdf5;
-
   color:#16a34a;
-
   padding:8px 14px;
-
   border-radius:30px;
-
   font-weight:700;
-
   font-size:13px;
 }
 
@@ -152,60 +129,53 @@ body{
 
 .hero{
   background:white;
-
   border-radius:28px;
-
   padding:40px;
-
   border:1px solid var(--border);
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:30px;
-
   margin-bottom:30px;
 }
 
-.hero-left h1{
+.hero h1{
   font-size:42px;
   line-height:1.1;
   margin-bottom:12px;
 }
 
-.hero-left p{
+.hero p{
   color:var(--muted);
   line-height:1.7;
-  max-width:550px;
+  max-width:700px;
+}
+
+.room-input{
+  width:100%;
+  margin-top:25px;
+  padding:18px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  outline:none;
+  font-size:15px;
 }
 
 .hero-actions{
-  margin-top:25px;
-
+  margin-top:20px;
   display:flex;
   gap:14px;
+  flex-wrap:wrap;
 }
 
 .btn{
   border:none;
-
-  padding:15px 24px;
-
+  padding:16px 24px;
   border-radius:16px;
-
   font-weight:700;
-
   cursor:pointer;
-
   transition:0.2s;
 }
 
 .btn-primary{
   background:linear-gradient(135deg,var(--orange),var(--orange2));
-
   color:white;
-
   box-shadow:0 8px 25px rgba(255,107,43,0.25);
 }
 
@@ -217,74 +187,104 @@ body{
   background:#f8fafc;
 }
 
-.hero-image{
-  width:340px;
+/* CALENDAR */
+
+.schedule-box{
+  background:white;
+  border-radius:28px;
+  padding:30px;
+  border:1px solid var(--border);
+  margin-bottom:30px;
 }
 
-.hero-image img{
-  width:100%;
-}
-
-/* GRID */
-
-.grid{
+.schedule-grid{
   display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-top:20px;
+}
 
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+.schedule-input{
+  padding:16px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  outline:none;
+  font-size:14px;
+}
 
+.schedule-btn{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  border:none;
+  color:white;
+  border-radius:16px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+/* MEETINGS */
+
+.meeting-list{
+  margin-top:25px;
+  display:grid;
+  gap:14px;
+}
+
+.meeting-item{
+  background:#f8fafc;
+  border-radius:18px;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
   gap:20px;
 }
 
-.card{
-  background:white;
-
-  border-radius:24px;
-
-  border:1px solid var(--border);
-
-  padding:24px;
+.join-btn{
+  background:var(--orange);
+  color:white;
+  border:none;
+  padding:12px 18px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:700;
 }
 
-.card h3{
-  margin-bottom:10px;
+/* FULLSCREEN */
+
+.fullscreen-meeting{
+  position:fixed;
+  inset:0;
+  background:black;
+  z-index:999999;
+  display:none;
+  flex-direction:column;
 }
 
-.card p{
-  color:var(--muted);
-  line-height:1.6;
-}
-
-.icon{
-  width:58px;
-  height:58px;
-
-  border-radius:18px;
-
-  background:#fff1eb;
-
+.fullscreen-top{
+  height:70px;
+  background:rgba(0,0,0,0.7);
   display:flex;
   align-items:center;
-  justify-content:center;
-
-  font-size:28px;
-
-  margin-bottom:16px;
+  gap:14px;
+  padding:0 20px;
+  color:white;
+  backdrop-filter:blur(10px);
 }
 
-/* STATUS */
+.back-btn{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:none;
+  background:rgba(255,255,255,0.15);
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
 
-.status{
-  margin-top:25px;
-
-  padding:16px;
-
-  border-radius:16px;
-
-  background:#f8fafc;
-
-  color:var(--muted);
-
-  display:none;
+#meet{
+  flex:1;
 }
 
 /* MOBILE */
@@ -299,13 +299,8 @@ body{
     margin-left:0;
   }
 
-  .hero{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .hero-image{
-    width:240px;
+  .hero h1{
+    font-size:32px;
   }
 
 }
@@ -321,7 +316,7 @@ body{
 <div class="sidebar">
 
   <div class="logo">
-    BEBIDAS<span>ya</span>
+    NE<span>XUS</span>
   </div>
 
   <div class="nav">
@@ -372,93 +367,84 @@ body{
 
     <div class="hero">
 
-      <div class="hero-left">
+      <h1>
+        Reuniones profesionales para tu equipo
+      </h1>
 
-        <h1>
-          Reuniones profesionales para tu equipo
-        </h1>
+      <p>
+        Videollamadas empresariales GRATIS usando Jitsi Meet.
+        Comparte pantalla, audio, cámara y chat en tiempo real.
+      </p>
 
-        <p>
-          Crea reuniones empresariales usando Zoom API directamente desde BEBIDASya.
-          Comparte enlaces, realiza soporte técnico, atención al cliente,
-          reuniones internas y videollamadas privadas.
-        </p>
+      <input
+        type="text"
+        id="roomName"
+        class="room-input"
+        placeholder="Nombre de la sala"
+      >
 
-        <div class="hero-actions">
+      <div class="hero-actions">
 
-          <button class="btn btn-primary" onclick="createMeeting()">
-            🚀 Crear reunión Zoom
-          </button>
+        <button
+          class="btn btn-primary"
+          onclick="createMeeting()"
+        >
+          🚀 Crear reunión
+        </button>
 
-          <button class="btn btn-secondary">
-            📅 Programar
-          </button>
-
-        </div>
-
-        <div class="status" id="status"></div>
-
-      </div>
-
-      <div class="hero-image">
-
-        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png">
+        <button
+          class="btn btn-secondary"
+          onclick="joinRandom()"
+        >
+          ⚡ Sala rápida
+        </button>
 
       </div>
 
     </div>
 
-    <!-- GRID -->
+    <!-- CALENDAR -->
 
-    <div class="grid">
+    <div class="schedule-box">
 
-      <div class="card">
+      <h2>
+        📅 Agendar reunión
+      </h2>
 
-        <div class="icon">
-          📹
-        </div>
+      <div class="schedule-grid">
 
-        <h3>
-          Videollamadas HD
-        </h3>
+        <input
+          type="text"
+          id="meetingTitle"
+          class="schedule-input"
+          placeholder="Título"
+        >
 
-        <p>
-          Realiza reuniones de alta calidad para equipos empresariales.
-        </p>
+        <input
+          type="date"
+          id="meetingDate"
+          class="schedule-input"
+        >
 
-      </div>
+        <input
+          type="time"
+          id="meetingTime"
+          class="schedule-input"
+        >
 
-      <div class="card">
-
-        <div class="icon">
-          🔒
-        </div>
-
-        <h3>
-          Seguridad
-        </h3>
-
-        <p>
-          Tus reuniones usan la infraestructura segura de Zoom.
-        </p>
-
-      </div>
-
-      <div class="card">
-
-        <div class="icon">
-          🌎
-        </div>
-
-        <h3>
-          Acceso mundial
-        </h3>
-
-        <p>
-          Comparte reuniones con cualquier persona mediante un link.
-        </p>
+        <button
+          class="schedule-btn"
+          onclick="scheduleMeeting()"
+        >
+          Guardar
+        </button>
 
       </div>
+
+      <div
+        class="meeting-list"
+        id="meetingList"
+      ></div>
 
     </div>
 
@@ -466,72 +452,331 @@ body{
 
 </div>
 
+<!-- FULLSCREEN -->
+
+<div
+  class="fullscreen-meeting"
+  id="fullscreenMeeting"
+>
+
+  <div class="fullscreen-top">
+
+    <button
+      class="back-btn"
+      onclick="closeMeeting()"
+    >
+      ←
+    </button>
+
+    <div>
+
+      <div style="font-weight:700">
+        Sala empresarial
+      </div>
+
+      <div
+        id="roomLabel"
+        style="
+        font-size:13px;
+        opacity:0.7;
+        "
+      ></div>
+
+    </div>
+
+  </div>
+
+  <div id="meet"></div>
+
+</div>
+
 <script>
 
-async function createMeeting(){
+/* ========================================= */
+/* USER */
+/* ========================================= */
 
-  const status = document.getElementById('status');
+const currentUser =
+  JSON.parse(
+    localStorage.getItem('by_user')
+  ) || {
 
-  status.style.display = 'block';
+    name:'Invitado'
 
-  status.innerHTML = '⏳ Creando reunión...';
+  };
 
-  try{
+/* ========================================= */
+/* STORAGE */
+/* ========================================= */
 
-    const response = await fetch(
-    'https://team-5j2f.onrender.com/create-meeting',
-      {
-        method:'POST'
-      }
-    );
+let meetings =
+  JSON.parse(
+    localStorage.getItem(
+      'NEXUS_meetings'
+    )
+  ) || [];
 
-    const data = await response.json();
+renderMeetings();
 
-    console.log(data);
+/* ========================================= */
+/* CREATE */
+/* ========================================= */
 
-    if(data.join_url){
+function createMeeting(){
 
-      status.innerHTML = `
-        ✅ Reunión creada correctamente.<br><br>
-        <strong>ID:</strong> ${data.id}<br><br>
+  let room =
+    document
+    .getElementById('roomName')
+    .value
+    .trim();
 
-        <a href="${data.join_url}"
-           target="_blank"
-           style="
-           color:#ff6b2b;
-           font-weight:700;
-           text-decoration:none;
-           ">
-           Abrir reunión
-        </a>
-      `;
+  if(room === ''){
 
-      window.open(data.join_url,'_blank');
+    room =
+      'NEXUS-' +
+      Math.random()
+      .toString(36)
+      .substring(2,8);
 
-    }else{
+  }
 
-      status.innerHTML = `
-        ❌ Error creando reunión
-      `;
+  openMeeting(room);
 
-      console.log(data);
+}
+
+/* ========================================= */
+/* RANDOM */
+/* ========================================= */
+
+function joinRandom(){
+
+  const room =
+    'NEXUS-' +
+    Math.random()
+    .toString(36)
+    .substring(2,8);
+
+  openMeeting(room);
+
+}
+
+/* ========================================= */
+/* OPEN */
+/* ========================================= */
+
+let api = null;
+
+function openMeeting(roomName){
+
+  document
+  .getElementById(
+    'fullscreenMeeting'
+  )
+  .style.display = 'flex';
+
+  document
+  .getElementById(
+    'roomLabel'
+  )
+  .innerHTML = roomName;
+
+  if(api){
+
+    api.dispose();
+
+  }
+
+  document
+  .getElementById('meet')
+  .innerHTML = '';
+
+  const domain = 'meet.jit.si';
+
+  const options = {
+
+    roomName: roomName,
+
+    width: '100%',
+
+    height: '100%',
+
+    parentNode:
+      document.querySelector('#meet'),
+
+    userInfo: {
+
+      displayName:
+        currentUser.name
+
+    },
+
+    configOverwrite: {
+
+      prejoinPageEnabled:false,
+
+      startWithAudioMuted:false,
+
+      startWithVideoMuted:false
+
+    },
+
+    interfaceConfigOverwrite: {
+
+      SHOW_JITSI_WATERMARK:false,
+
+      MOBILE_APP_PROMO:false
 
     }
 
-  }catch(error){
+  };
 
-    console.log(error);
+  api =
+    new JitsiMeetExternalAPI(
+      domain,
+      options
+    );
 
-    status.innerHTML = `
-      ❌ No se pudo conectar con el servidor
-    `;
+}
+
+/* ========================================= */
+/* CLOSE */
+/* ========================================= */
+
+function closeMeeting(){
+
+  document
+  .getElementById(
+    'fullscreenMeeting'
+  )
+  .style.display = 'none';
+
+  if(api){
+
+    api.dispose();
 
   }
+
+}
+
+/* ========================================= */
+/* SCHEDULE */
+/* ========================================= */
+
+function scheduleMeeting(){
+
+  const title =
+    document
+    .getElementById(
+      'meetingTitle'
+    )
+    .value;
+
+  const date =
+    document
+    .getElementById(
+      'meetingDate'
+    )
+    .value;
+
+  const time =
+    document
+    .getElementById(
+      'meetingTime'
+    )
+    .value;
+
+  if(!title || !date || !time){
+
+    alert(
+      'Completa todos los campos'
+    );
+
+    return;
+
+  }
+
+  const room =
+    'NEXUS-' +
+    Math.random()
+    .toString(36)
+    .substring(2,8);
+
+  meetings.push({
+
+    title,
+    date,
+    time,
+    room,
+
+    createdBy:
+      currentUser.name
+
+  });
+
+  localStorage.setItem(
+
+    'Teamyanbal_meetings',
+
+    JSON.stringify(meetings)
+
+  );
+
+  renderMeetings();
+
+}
+
+/* ========================================= */
+/* RENDER */
+/* ========================================= */
+
+function renderMeetings(){
+
+  const list =
+    document.getElementById(
+      'meetingList'
+    );
+
+  list.innerHTML = '';
+
+  meetings.forEach((meeting)=>{
+
+    list.innerHTML += `
+
+      <div class="meeting-item">
+
+        <div>
+
+          <h3>
+            ${meeting.title}
+          </h3>
+
+          <p>
+            📅 ${meeting.date}
+            ⏰ ${meeting.time}
+          </p>
+
+          <p>
+            👤 ${meeting.createdBy}
+          </p>
+
+        </div>
+
+        <button
+          class="join-btn"
+          onclick="openMeeting('${meeting.room}')"
+        >
+          Entrar
+        </button>
+
+      </div>
+
+    `;
+
+  });
 
 }
 
 </script>
 
 </body>
-
 </html>
