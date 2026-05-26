@@ -2,21 +2,27 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 import base64
+import os
 
 app = Flask(__name__)
+
+# ==========================================
+# CORS
+# ==========================================
+
 CORS(app)
 
-# ==================================================
+# ==========================================
 # ZOOM CONFIG
-# ==================================================
+# ==========================================
 
-ACCOUNT_ID = "TU_ACCOUNT_ID"
-CLIENT_ID = "TU_CLIENT_ID"
-CLIENT_SECRET = "TU_CLIENT_SECRET"
+ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
+CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
+CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
 
-# ==================================================
+# ==========================================
 # GENERAR ACCESS TOKEN
-# ==================================================
+# ==========================================
 
 def get_access_token():
 
@@ -44,17 +50,22 @@ def get_access_token():
 
     data = response.json()
 
-    print("\nTOKEN RESPONSE:")
+    print("\n====================")
+    print("TOKEN RESPONSE")
+    print("====================")
     print(data)
 
     if "access_token" not in data:
-        raise Exception(f"Error obteniendo token: {data}")
+
+        raise Exception(
+            f"Error obteniendo token: {data}"
+        )
 
     return data["access_token"]
 
-# ==================================================
+# ==========================================
 # HOME
-# ==================================================
+# ==========================================
 
 @app.route("/")
 def home():
@@ -64,9 +75,9 @@ def home():
         "service": "BEBIDASya Zoom API"
     })
 
-# ==================================================
+# ==========================================
 # CREAR REUNIÓN
-# ==================================================
+# ==========================================
 
 @app.route("/create-meeting", methods=["POST"])
 def create_meeting():
@@ -118,14 +129,18 @@ def create_meeting():
 
         meeting_data = response.json()
 
-        print("\nMEETING RESPONSE:")
+        print("\n====================")
+        print("MEETING RESPONSE")
+        print("====================")
         print(meeting_data)
 
         return jsonify(meeting_data)
 
     except Exception as e:
 
-        print("\nERROR:")
+        print("\n====================")
+        print("ERROR")
+        print("====================")
         print(str(e))
 
         return jsonify({
@@ -133,9 +148,9 @@ def create_meeting():
             "error": str(e)
         }), 500
 
-# ==================================================
+# ==========================================
 # OBTENER REUNIONES
-# ==================================================
+# ==========================================
 
 @app.route("/meetings")
 def get_meetings():
@@ -162,9 +177,9 @@ def get_meetings():
             "error": str(e)
         }), 500
 
-# ==================================================
+# ==========================================
 # ELIMINAR REUNIÓN
-# ==================================================
+# ==========================================
 
 @app.route("/delete-meeting/<meeting_id>", methods=["DELETE"])
 def delete_meeting(meeting_id):
@@ -201,21 +216,17 @@ def delete_meeting(meeting_id):
             "error": str(e)
         }), 500
 
-# ==================================================
+# ==========================================
 # START SERVER
-# ==================================================
+# ==========================================
 
 if __name__ == "__main__":
 
     print("\n===================================")
     print("BEBIDASya Zoom Server")
     print("===================================")
-    print("Servidor iniciado en:")
-    print("http://127.0.0.1:5000")
-    print("===================================\n")
 
     app.run(
         host="0.0.0.0",
-        port=5000,
-        debug=True
+        port=5000
     )
