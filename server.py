@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from flask_cors import CORS
 import requests
 import base64
@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 # ==========================================
-# ZOOM CONFIG
+# VARIABLES DE ENTORNO
 # ==========================================
 
 ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
@@ -21,7 +21,19 @@ CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
 CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
 
 # ==========================================
-# GENERAR ACCESS TOKEN
+# HOME
+# ==========================================
+
+@app.route("/")
+def home():
+
+    return jsonify({
+        "status": "online",
+        "service": "BEBIDASya Zoom API"
+    })
+
+# ==========================================
+# GENERAR TOKEN
 # ==========================================
 
 def get_access_token():
@@ -48,23 +60,24 @@ def get_access_token():
         headers=headers
     )
 
-    data = response.json()
+    print("\nTOKEN STATUS:")
+    print(response.status_code)
 
-    print("\n====================")
-    print("TOKEN RESPONSE")
-    print("====================")
-    print(data)
+    print("\nTOKEN RESPONSE:")
+    print(response.text)
+
+    data = response.json()
 
     if "access_token" not in data:
 
         raise Exception(
-            f"Error obteniendo token: {data}"
+            f"NO SE PUDO GENERAR TOKEN: {data}"
         )
 
     return data["access_token"]
 
 # ==========================================
-# HOME
+# CREAR REUNION
 # ==========================================
 
 @app.route("/create-meeting", methods=["POST"])
@@ -72,20 +85,16 @@ def create_meeting():
 
     try:
 
-        print("\n========== CREANDO REUNION ==========\n")
-
         token = get_access_token()
-
-        print("TOKEN OK")
 
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json"
         }
 
-        body = {
+        meeting_body = {
 
-            "topic": "BEBIDASya Sala Empresarial",
+            "topic": "BEBIDASya Sala",
 
             "type": 1,
 
@@ -110,40 +119,35 @@ def create_meeting():
         }
 
         response = requests.post(
-
             "https://api.zoom.us/v2/users/me/meetings",
-
             headers=headers,
-
-            json=body
-
+            json=meeting_body
         )
 
-        print("\nSTATUS CODE:")
+        print("\nMEETING STATUS:")
         print(response.status_code)
 
-        print("\nRAW RESPONSE:")
+        print("\nMEETING RESPONSE:")
         print(response.text)
 
-        meeting_data = response.json()
-
-        return jsonify(meeting_data)
+        return jsonify(response.json())
 
     except Exception as e:
 
-        print("\n========== ERROR ==========")
+        print("\nERROR:")
         print(str(e))
 
         return jsonify({
             "success": False,
             "error": str(e)
         }), 500
+
 # ==========================================
-# OBTENER REUNIONES
+# LISTAR REUNIONES
 # ==========================================
 
 @app.route("/meetings")
-def get_meetings():
+def meetings():
 
     try:
 
@@ -168,7 +172,7 @@ def get_meetings():
         }), 500
 
 # ==========================================
-# ELIMINAR REUNIÓN
+# ELIMINAR REUNION
 # ==========================================
 
 @app.route("/delete-meeting/<meeting_id>", methods=["DELETE"])
@@ -183,7 +187,7 @@ def delete_meeting(meeting_id):
         }
 
         response = requests.delete(
-            f"https://api.zoom.us/v2/meetings/{meeting_id}",
+            f"https://://api.zoom.us/v2/meetings/{meeting_id}",
             headers=headers
         )
 
@@ -207,7 +211,7 @@ def delete_meeting(meeting_id):
         }), 500
 
 # ==========================================
-# START SERVER
+# START
 # ==========================================
 
 if __name__ == "__main__":
