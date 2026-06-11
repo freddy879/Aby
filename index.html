@@ -1,138 +1,289 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Aby ❤️</title>
-
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Nuestro espacio</title>
 <style>
-body{
-    margin:0;
-    padding:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
-    font-family:'Segoe UI',sans-serif;
-    overflow:hidden;
-}
-
-.corazon{
-    position:fixed;
-    color:white;
-    font-size:20px;
-    animation:caer 8s linear infinite;
-}
-
-@keyframes caer{
-    0%{
-        transform:translateY(-100px);
-        opacity:1;
-    }
-    100%{
-        transform:translateY(110vh);
-        opacity:0;
-    }
-}
-
-.tarjeta{
-    background:rgba(255,255,255,0.9);
-    padding:40px;
-    max-width:700px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
-}
-
-h1{
-    color:#ff4d88;
-    font-size:3em;
-}
-
-p{
-    font-size:1.2em;
-    color:#444;
-    line-height:1.8;
-}
-
-.boton{
-    margin-top:20px;
-    padding:15px 30px;
-    border:none;
-    border-radius:30px;
-    background:#ff4d88;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-}
-
-.mensaje{
-    display:none;
-    margin-top:20px;
-    color:#ff4d88;
-    font-size:1.4em;
-    font-weight:bold;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#fff;color:#111;max-width:420px;margin:0 auto;padding:1rem}
+.screen{display:none}
+.screen.on{display:block}
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+h2{font-size:18px;font-weight:500}
+p{font-size:14px;color:#666;line-height:1.6}
+label{font-size:13px;color:#666;display:block;margin-bottom:5px}
+input[type=text],input[type=password],textarea{width:100%;padding:8px 12px;font-size:14px;border-radius:8px;border:1px solid #ccc;background:#f9f9f9;color:#111;font-family:inherit}
+textarea{resize:vertical;min-height:70px}
+button{cursor:pointer;font-family:inherit;border-radius:8px}
+.btn{background:transparent;border:1px solid #ccc;color:#111;padding:8px 16px;font-size:14px}
+.btn:hover{background:#f5f5f5}
+.btn-full{width:100%;padding:10px;font-size:15px;font-weight:500}
+.err{color:#c0392b;font-size:13px;margin-top:6px;min-height:18px}
+.badge{display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;font-weight:500}
+.badge-pink{background:#FBEAF0;color:#72243E}
+.badge-blue{background:#E6F1FB;color:#0C447C}
+.vibebtn{width:100%;padding:2rem 1rem;font-size:17px;font-weight:500;border:1px solid #ED93B1;background:#FBEAF0;color:#72243E;border-radius:12px;transition:transform 0.1s}
+.vibebtn:active{transform:scale(0.96)}
+.vibebtn.sent{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
+.metric{background:#f5f5f5;border-radius:8px;padding:1rem;text-align:center;flex:1}
+.metric-val{font-size:26px;font-weight:500}
+.metric-lbl{font-size:12px;color:#666;margin-top:2px}
+.note-item{border-bottom:1px solid #eee;padding:10px 0}
+.note-item:last-child{border-bottom:none}
+.note-who{font-size:12px;font-weight:500}
+.note-who.aby{color:#993556}
+.note-who.fred{color:#185FA5}
+.note-text{font-size:14px;margin-top:2px}
+.note-time{font-size:11px;color:#aaa;margin-top:2px}
+.incoming-banner{background:#FBEAF0;border:1px solid #ED93B1;border-radius:8px;padding:10px 14px;font-size:14px;color:#72243E;margin-bottom:1rem;display:none;text-align:center;font-weight:500}
+.incoming-banner.show{display:block}
+.tabs{display:flex;gap:8px;margin-bottom:1rem}
+.tab{flex:1;padding:8px;font-size:13px;border:1px solid #ccc;background:transparent;color:#666;border-radius:8px;cursor:pointer}
+.tab.active{background:#f0f0f0;color:#111;font-weight:500}
 </style>
 </head>
 <body>
 
-<div class="tarjeta">
-    <h1>Para Aby ❤️</h1>
-
-    <p>
-        Hola, Aby.<br><br>
-
-        No sé si existen las palabras perfectas para describir lo que siento,
-        pero sí sé que desde que llegaste a mi vida, mis días tienen algo especial.
-        Eres esa persona que logra sacarme una sonrisa incluso cuando todo parece difícil.
-        <br><br>
-
-        Me gusta tu forma de ser, tu sonrisa, tu manera de ver el mundo
-        y cada pequeño detalle que te hace única.
-        <br><br>
-
-        Si pudiera pedir algo, sería seguir creando recuerdos contigo,
-        porque cada momento a tu lado vale más de lo que imaginas.
-        <br><br>
-
-        Gracias por existir mi osita ❤️
-        <br><br>
-
-        <br>
-        <b>te amo❤️</b>
-    </p>
-
-    <button class="boton" onclick="mostrarMensaje()">
-        Presiona aquí ❤️
-    </button>
-
-    <div class="mensaje" id="mensaje">
-        Te elegiría una y mil veces. ❤️✨
+<div id="sLogin" class="screen on">
+  <div style="text-align:center;padding:2rem 0 1.5rem">
+    <div style="font-size:44px;margin-bottom:8px">🩷</div>
+    <h2>Nuestro espacio</h2>
+    <p style="margin-top:4px">Solo para nosotros dos</p>
+  </div>
+  <div class="card">
+    <div style="margin-bottom:12px">
+      <label>Usuario</label>
+      <input type="text" id="uIn" placeholder="aby o fred" autocomplete="off"/>
     </div>
+    <div style="margin-bottom:12px">
+      <label>Contraseña</label>
+      <input type="password" id="pIn" placeholder="••••••••"/>
+    </div>
+    <button class="btn btn-full" onclick="doLogin()">Entrar</button>
+    <p class="err" id="loginErr"></p>
+  </div>
+</div>
+
+<div id="sMain" class="screen">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="mainBadge" class="badge"></span>
+      <span id="mainName" style="font-size:15px;font-weight:500"></span>
+    </div>
+    <button class="btn" style="font-size:13px;padding:6px 12px" onclick="doLogout()">Salir</button>
+  </div>
+
+  <div id="incomingBanner" class="incoming-banner"></div>
+
+  <div class="tabs">
+    <button class="tab active" id="tab1" onclick="showTab(1)">💓 Vibrar</button>
+    <button class="tab" id="tab2" onclick="showTab(2)">🔥 Racha</button>
+    <button class="tab" id="tab3" onclick="showTab(3)">💌 Notas</button>
+  </div>
+
+  <div id="tabVibe">
+    <div class="card">
+      <p style="text-align:center;margin-bottom:1rem">Aplasta para que <span id="otherName"></span> lo sienta</p>
+      <button class="vibebtn" id="vibeBtn" onclick="sendVibe()">
+        <div style="font-size:36px;margin-bottom:8px">🩷</div>
+        Te estoy pensando
+      </button>
+      <p id="vibeStatus" style="text-align:center;font-size:13px;color:#666;margin-top:12px;min-height:18px"></p>
+    </div>
+  </div>
+
+  <div id="tabStreak" style="display:none">
+    <div class="card" style="text-align:center">
+      <div id="streakFire" style="font-size:40px;margin-bottom:6px">🤍</div>
+      <div id="streakDays" style="font-size:32px;font-weight:500">0</div>
+      <div style="font-size:13px;color:#666;margin-top:4px">días seguidos</div>
+      <p style="margin-top:12px;font-size:13px" id="streakMsg"></p>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:1rem">
+      <div class="metric">
+        <div class="metric-val" id="totalVibes">0</div>
+        <div class="metric-lbl">vibraciones enviadas</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val" id="totalNotes">0</div>
+        <div class="metric-lbl">notas escritas</div>
+      </div>
+    </div>
+    <div class="card" style="text-align:center">
+      <button class="btn btn-full" onclick="checkInToday()">✓ Marcar hoy como activo</button>
+      <p id="checkInMsg" style="font-size:12px;color:#666;margin-top:8px;min-height:16px"></p>
+    </div>
+  </div>
+
+  <div id="tabNotes" style="display:none">
+    <div class="card">
+      <label>Escríbele algo a <span id="noteFor"></span></label>
+      <textarea id="noteInput" placeholder="Hola mi amor..."></textarea>
+      <button class="btn btn-full" style="margin-top:10px" onclick="sendNote()">Enviar nota 💌</button>
+    </div>
+    <div class="card" id="notesList">
+      <p style="font-size:13px;color:#aaa;text-align:center">Todavía no hay notas</p>
+    </div>
+  </div>
 </div>
 
 <script>
-function mostrarMensaje(){
-    document.getElementById("mensaje").style.display="block";
+const USERS={
+  aby:{pass:'aby',name:'Aby',other:'Fred',otherKey:'fred',badgeClass:'badge-pink'},
+  fred:{pass:'fred',name:'Fred',other:'Aby',otherKey:'aby',badgeClass:'badge-blue'}
+};
+let currentUser=null,vibeInterval=null;
+
+function lsGet(k){try{return JSON.parse(localStorage.getItem('couple_'+k));}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem('couple_'+k,JSON.stringify(v));}catch(e){}}
+
+function doLogin(){
+  const u=document.getElementById('uIn').value.trim().toLowerCase();
+  const p=document.getElementById('pIn').value.trim().toLowerCase();
+  const err=document.getElementById('loginErr');
+  if(USERS[u]&&USERS[u].pass===p){
+    err.textContent='';currentUser=u;
+    document.getElementById('sLogin').className='screen';
+    document.getElementById('sMain').className='screen on';
+    loadMain();startPolling();
+  } else {
+    err.textContent='Usuario o contraseña incorrectos';
+    document.getElementById('pIn').value='';
+  }
+}
+document.getElementById('pIn').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('uIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pIn').focus();});
+
+function doLogout(){
+  currentUser=null;clearInterval(vibeInterval);
+  document.getElementById('sMain').className='screen';
+  document.getElementById('sLogin').className='screen on';
+  document.getElementById('uIn').value='';document.getElementById('pIn').value='';
+  showTab(1);
 }
 
-function crearCorazon(){
-    const corazon=document.createElement("div");
-    corazon.classList.add("corazon");
-    corazon.innerHTML="❤";
-    corazon.style.left=Math.random()*100+"vw";
-    corazon.style.fontSize=(Math.random()*25+15)+"px";
-    document.body.appendChild(corazon);
-
-    setTimeout(()=>{
-        corazon.remove();
-    },8000);
+function loadMain(){
+  const u=USERS[currentUser];
+  const badge=document.getElementById('mainBadge');
+  badge.textContent=u.name;badge.className='badge '+u.badgeClass;
+  document.getElementById('mainName').textContent='Hola, '+u.name+' 🩷';
+  document.getElementById('otherName').textContent=u.other;
+  document.getElementById('noteFor').textContent=u.other;
+  renderNotes();renderStreak();
 }
 
-setInterval(crearCorazon,300);
+function showTab(n){
+  ['tabVibe','tabStreak','tabNotes'].forEach((id,i)=>{
+    document.getElementById(id).style.display=i===n-1?'block':'none';
+  });
+  ['tab1','tab2','tab3'].forEach((id,i)=>{
+    document.getElementById(id).className='tab'+(i===n-1?' active':'');
+  });
+  if(n===2)renderStreak();
+  if(n===3)renderNotes();
+}
+
+function sendVibe(){
+  if(!currentUser)return;
+  const u=USERS[currentUser];
+  lsSet('vibe_for_'+u.otherKey,{from:currentUser,ts:Date.now()});
+  let s=lsGet('stats')||{vibes:0,notes:0};s.vibes=(s.vibes||0)+1;lsSet('stats',s);
+  const btn=document.getElementById('vibeBtn');
+  btn.className='vibebtn sent';
+  btn.innerHTML='<div style="font-size:36px;margin-bottom:8px">✅</div>Enviado con amor';
+  document.getElementById('vibeStatus').textContent=u.other+' lo sentirá pronto 💗';
+  if(navigator.vibrate)navigator.vibrate([200,100,200]);
+  setTimeout(()=>{
+    btn.className='vibebtn';
+    btn.innerHTML='<div style="font-size:36px;margin-bottom:8px">🩷</div>Te estoy pensando';
+    document.getElementById('vibeStatus').textContent='';
+  },3000);
+}
+
+function checkIncomingVibe(){
+  if(!currentUser)return;
+  const data=lsGet('vibe_for_'+currentUser);
+  if(!data||Date.now()-data.ts>10000)return;
+  const name=USERS[data.from]?.name||data.from;
+  const banner=document.getElementById('incomingBanner');
+  banner.textContent='💗 '+name+' te está pensando!';
+  banner.className='incoming-banner show';
+  if(navigator.vibrate)navigator.vibrate([300,150,300,150,300]);
+  lsSet('vibe_for_'+currentUser,{...data,ts:0});
+  setTimeout(()=>{banner.className='incoming-banner';},6000);
+}
+
+function startPolling(){
+  clearInterval(vibeInterval);
+  vibeInterval=setInterval(checkIncomingVibe,2000);
+}
+
+function sendNote(){
+  if(!currentUser)return;
+  const input=document.getElementById('noteInput');
+  const text=input.value.trim();if(!text)return;
+  const notes=lsGet('notes')||[];
+  notes.unshift({from:currentUser,text,ts:Date.now()});
+  if(notes.length>50)notes.length=50;
+  lsSet('notes',notes);
+  let s=lsGet('stats')||{vibes:0,notes:0};s.notes=(s.notes||0)+1;lsSet('stats',s);
+  input.value='';renderNotes();
+}
+
+function renderNotes(){
+  const notes=lsGet('notes')||[];
+  const el=document.getElementById('notesList');
+  if(!notes.length){el.innerHTML='<p style="font-size:13px;color:#aaa;text-align:center">Todavía no hay notas</p>';return;}
+  el.innerHTML=notes.map(n=>{
+    const name=USERS[n.from]?.name||n.from;
+    const cls=n.from==='aby'?'aby':'fred';
+    const d=new Date(n.ts);
+    const time=d.toLocaleDateString('es',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="note-item"><span class="note-who ${cls}">${name}</span><p class="note-text">${esc(n.text)}</p><p class="note-time">${time}</p></div>`;
+  }).join('');
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function checkInToday(){
+  const today=new Date().toISOString().slice(0,10);
+  const sd=lsGet('streak')||{days:[]};
+  const msg=document.getElementById('checkInMsg');
+  if(sd.days.includes(today)){msg.textContent='Ya marcaste hoy 😊';}
+  else{
+    sd.days.push(today);sd.days=sd.days.slice(-365);lsSet('streak',sd);
+    msg.textContent='✓ Marcado para hoy!';renderStreak();
+  }
+  setTimeout(()=>{msg.textContent='';},3000);
+}
+
+function calcStreak(days){
+  if(!days||!days.length)return 0;
+  const sorted=[...days].sort().reverse();
+  let count=0,d=new Date();d.setHours(0,0,0,0);
+  for(let i=0;i<sorted.length;i++){
+    const ds=d.toISOString().slice(0,10);
+    if(sorted.includes(ds)){count++;d.setDate(d.getDate()-1);}
+    else break;
+  }
+  return count;
+}
+
+function renderStreak(){
+  const sd=lsGet('streak')||{days:[]};
+  const s=lsGet('stats')||{vibes:0,notes:0};
+  const streak=calcStreak(sd.days);
+  document.getElementById('streakDays').textContent=streak;
+  document.getElementById('totalVibes').textContent=s.vibes||0;
+  document.getElementById('totalNotes').textContent=s.notes||0;
+  const fire=document.getElementById('streakFire');
+  const msg=document.getElementById('streakMsg');
+  if(streak===0){fire.textContent='🤍';msg.textContent='Marca hoy para empezar la racha';}
+  else if(streak<7){fire.textContent='🔥';msg.textContent=streak+' días seguidos — ¡sigan así!';}
+  else if(streak<30){fire.textContent='🔥🔥';msg.textContent='¡Una semana o más, son constantes!';}
+  else{fire.textContent='🔥🔥🔥';msg.textContent='¡Un mes o más — son increíbles!';}
+}
 </script>
-
 </body>
 </html>
