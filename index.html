@@ -1,289 +1,448 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Nuestro espacio</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#fff;color:#111;max-width:420px;margin:0 auto;padding:1rem}
-.screen{display:none}
-.screen.on{display:block}
-.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-h2{font-size:18px;font-weight:500}
-p{font-size:14px;color:#666;line-height:1.6}
-label{font-size:13px;color:#666;display:block;margin-bottom:5px}
-input[type=text],input[type=password],textarea{width:100%;padding:8px 12px;font-size:14px;border-radius:8px;border:1px solid #ccc;background:#f9f9f9;color:#111;font-family:inherit}
-textarea{resize:vertical;min-height:70px}
-button{cursor:pointer;font-family:inherit;border-radius:8px}
-.btn{background:transparent;border:1px solid #ccc;color:#111;padding:8px 16px;font-size:14px}
-.btn:hover{background:#f5f5f5}
-.btn-full{width:100%;padding:10px;font-size:15px;font-weight:500}
-.err{color:#c0392b;font-size:13px;margin-top:6px;min-height:18px}
-.badge{display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;font-weight:500}
-.badge-pink{background:#FBEAF0;color:#72243E}
-.badge-blue{background:#E6F1FB;color:#0C447C}
-.vibebtn{width:100%;padding:2rem 1rem;font-size:17px;font-weight:500;border:1px solid #ED93B1;background:#FBEAF0;color:#72243E;border-radius:12px;transition:transform 0.1s}
-.vibebtn:active{transform:scale(0.96)}
-.vibebtn.sent{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
-.metric{background:#f5f5f5;border-radius:8px;padding:1rem;text-align:center;flex:1}
-.metric-val{font-size:26px;font-weight:500}
-.metric-lbl{font-size:12px;color:#666;margin-top:2px}
-.note-item{border-bottom:1px solid #eee;padding:10px 0}
-.note-item:last-child{border-bottom:none}
-.note-who{font-size:12px;font-weight:500}
-.note-who.aby{color:#993556}
-.note-who.fred{color:#185FA5}
-.note-text{font-size:14px;margin-top:2px}
-.note-time{font-size:11px;color:#aaa;margin-top:2px}
-.incoming-banner{background:#FBEAF0;border:1px solid #ED93B1;border-radius:8px;padding:10px 14px;font-size:14px;color:#72243E;margin-bottom:1rem;display:none;text-align:center;font-weight:500}
-.incoming-banner.show{display:block}
-.tabs{display:flex;gap:8px;margin-bottom:1rem}
-.tab{flex:1;padding:8px;font-size:13px;border:1px solid #ccc;background:transparent;color:#666;border-radius:8px;cursor:pointer}
-.tab.active{background:#f0f0f0;color:#111;font-weight:500}
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  .wrap {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #fff0f5 0%, #fef6f0 40%, #f0f4ff 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .petals {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .petal {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0;
+    animation: fall linear infinite;
+    top: -30px;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-30px) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .content { position: relative; z-index: 1; width: 100%; max-width: 560px; display: flex; flex-direction: column; align-items: center; gap: 32px; }
+
+  .ring-icon {
+    font-size: 64px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 16px rgba(220,120,160,0.3));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-5deg); }
+    50%       { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  .title-block { text-align: center; }
+
+  .title-block h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #c96b9a;
+    margin: 0 0 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .title-block .subtitle {
+    font-size: 14px;
+    color: #b08ab0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .date-chip {
+    background: #fff0f8;
+    border: 1px solid #f9c8de;
+    border-radius: 50px;
+    padding: 8px 22px;
+    font-size: 14px;
+    color: #d4729e;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .counter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  .counter-box {
+    background: white;
+    border-radius: 20px;
+    padding: 22px 8px 16px;
+    text-align: center;
+    border: 1px solid #f9d6e8;
+    box-shadow: 0 4px 24px rgba(220,120,160,0.08);
+  }
+
+  .counter-box .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .counter-box:nth-child(1) .num { color: #e896b8; }
+  .counter-box:nth-child(2) .num { color: #f4a56a; }
+  .counter-box:nth-child(3) .num { color: #7db8e8; }
+  .counter-box:nth-child(4) .num { color: #9dca7e; }
+
+  .counter-box .label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c4a4b8;
+    font-weight: 500;
+  }
+
+  .phrase-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 32px;
+    text-align: center;
+    border: 1px solid #f9d6e8;
+    box-shadow: 0 4px 24px rgba(220,120,160,0.07);
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .phrase-card:hover { transform: scale(1.01); }
+
+  .phrase-card .quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #f4c2d8;
+    line-height: 0.5;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .phrase-card p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #8a6480;
+    margin: 0 0 8px;
+  }
+
+  .phrase-card .hint {
+    font-size: 12px;
+    color: #d4a8c4;
+    letter-spacing: 1px;
+  }
+
+  .timeline {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 32px;
+    width: 100%;
+    border: 1px solid #f9d6e8;
+    box-shadow: 0 4px 24px rgba(220,120,160,0.07);
+  }
+
+  .timeline h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: #c96b9a;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  .tl-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .tl-item:last-child { margin-bottom: 0; }
+
+  .tl-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .tl-dot.past   { background: #fce8f3; }
+  .tl-dot.future { background: #fdf4e8; }
+  .tl-dot.goal   { background: #f0f4ff; }
+
+  .tl-info { flex: 1; }
+  .tl-info .tl-title { font-size: 14px; font-weight: 500; color: #8a6480; margin: 0 0 2px; }
+  .tl-info .tl-sub   { font-size: 12px; color: #c4a4b8; margin: 0; }
+
+  .tl-days {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #e896b8;
+  }
+
+  .progress-section {
+    width: 100%;
+    background: white;
+    border-radius: 24px;
+    padding: 24px 32px;
+    border: 1px solid #f9d6e8;
+    box-shadow: 0 4px 24px rgba(220,120,160,0.07);
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #b08ab0;
+  }
+
+  .progress-bar {
+    background: #fce8f3;
+    border-radius: 50px;
+    height: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #f4b8d4, #e896b8);
+    transition: width 1s ease;
+  }
+
+  .progress-msg {
+    font-size: 13px;
+    color: #c4a4b8;
+    text-align: center;
+  }
+
+  .footer-phrase {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #c4a4b8;
+    text-align: center;
+    line-height: 1.8;
+    padding: 0 20px;
+  }
 </style>
-</head>
-<body>
 
-<div id="sLogin" class="screen on">
-  <div style="text-align:center;padding:2rem 0 1.5rem">
-    <div style="font-size:44px;margin-bottom:8px">🩷</div>
-    <h2>Nuestro espacio</h2>
-    <p style="margin-top:4px">Solo para nosotros dos</p>
-  </div>
-  <div class="card">
-    <div style="margin-bottom:12px">
-      <label>Usuario</label>
-      <input type="text" id="uIn" placeholder="aby o fred" autocomplete="off"/>
+<div class="petals" id="petals"></div>
+
+<div class="wrap">
+  <div class="content">
+
+    <div class="ring-icon">💍</div>
+
+    <div class="title-block">
+      <h1>Para mi osita</h1>
+      <div class="subtitle">cuenta regresiva</div>
     </div>
-    <div style="margin-bottom:12px">
-      <label>Contraseña</label>
-      <input type="password" id="pIn" placeholder="••••••••"/>
-    </div>
-    <button class="btn btn-full" onclick="doLogin()">Entrar</button>
-    <p class="err" id="loginErr"></p>
-  </div>
-</div>
 
-<div id="sMain" class="screen">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span id="mainBadge" class="badge"></span>
-      <span id="mainName" style="font-size:15px;font-weight:500"></span>
-    </div>
-    <button class="btn" style="font-size:13px;padding:6px 12px" onclick="doLogout()">Salir</button>
-  </div>
+    <div class="date-chip" id="dateChip">12 de marzo de 2027 💍</div>
 
-  <div id="incomingBanner" class="incoming-banner"></div>
-
-  <div class="tabs">
-    <button class="tab active" id="tab1" onclick="showTab(1)">💓 Vibrar</button>
-    <button class="tab" id="tab2" onclick="showTab(2)">🔥 Racha</button>
-    <button class="tab" id="tab3" onclick="showTab(3)">💌 Notas</button>
-  </div>
-
-  <div id="tabVibe">
-    <div class="card">
-      <p style="text-align:center;margin-bottom:1rem">Aplasta para que <span id="otherName"></span> lo sienta</p>
-      <button class="vibebtn" id="vibeBtn" onclick="sendVibe()">
-        <div style="font-size:36px;margin-bottom:8px">🩷</div>
-        Te estoy pensando
-      </button>
-      <p id="vibeStatus" style="text-align:center;font-size:13px;color:#666;margin-top:12px;min-height:18px"></p>
-    </div>
-  </div>
-
-  <div id="tabStreak" style="display:none">
-    <div class="card" style="text-align:center">
-      <div id="streakFire" style="font-size:40px;margin-bottom:6px">🤍</div>
-      <div id="streakDays" style="font-size:32px;font-weight:500">0</div>
-      <div style="font-size:13px;color:#666;margin-top:4px">días seguidos</div>
-      <p style="margin-top:12px;font-size:13px" id="streakMsg"></p>
-    </div>
-    <div style="display:flex;gap:10px;margin-bottom:1rem">
-      <div class="metric">
-        <div class="metric-val" id="totalVibes">0</div>
-        <div class="metric-lbl">vibraciones enviadas</div>
+    <div class="counter-grid">
+      <div class="counter-box">
+        <div class="num" id="dias">---</div>
+        <div class="label">días</div>
       </div>
-      <div class="metric">
-        <div class="metric-val" id="totalNotes">0</div>
-        <div class="metric-lbl">notas escritas</div>
+      <div class="counter-box">
+        <div class="num" id="horas">--</div>
+        <div class="label">horas</div>
+      </div>
+      <div class="counter-box">
+        <div class="num" id="minutos">--</div>
+        <div class="label">min.</div>
+      </div>
+      <div class="counter-box">
+        <div class="num" id="segundos">--</div>
+        <div class="label">seg.</div>
       </div>
     </div>
-    <div class="card" style="text-align:center">
-      <button class="btn btn-full" onclick="checkInToday()">✓ Marcar hoy como activo</button>
-      <p id="checkInMsg" style="font-size:12px;color:#666;margin-top:8px;min-height:16px"></p>
-    </div>
-  </div>
 
-  <div id="tabNotes" style="display:none">
-    <div class="card">
-      <label>Escríbele algo a <span id="noteFor"></span></label>
-      <textarea id="noteInput" placeholder="Hola mi amor..."></textarea>
-      <button class="btn btn-full" style="margin-top:10px" onclick="sendNote()">Enviar nota 💌</button>
+    <div class="phrase-card" onclick="cambiarFrase()" id="phraseCard">
+      <span class="quote-mark">"</span>
+      <p id="phraseText">Cargando...</p>
+      <div class="hint">toca para cambiar la frase ✨</div>
     </div>
-    <div class="card" id="notesList">
-      <p style="font-size:13px;color:#aaa;text-align:center">Todavía no hay notas</p>
+
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Inicio del conteo</span>
+        <span id="pctLabel">0% completado</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="progress-msg" id="progressMsg">Calculando...</div>
     </div>
+
+    <div class="timeline">
+      <h3>Momentos que nos esperan 🌸</h3>
+      <div class="tl-item">
+        <div class="tl-dot past">🌅</div>
+        <div class="tl-info">
+          <p class="tl-title">Hoy · quiero demostrarte lo mucho que significas para mi </p>
+          <p class="tl-sub" id="hoy-fecha"></p>
+        </div>
+        <div class="tl-days" id="hoy-label">hoy</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot future">🎄</div>
+        <div class="tl-info">
+          <p class="tl-title">Próxima Navidad juntos</p>
+          <p class="tl-sub">25 de diciembre de 2025</p>
+        </div>
+        <div class="tl-days" id="navidad-dias">---</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot future">🌸</div>
+        <div class="tl-info">
+          <p class="tl-title">Un nuevo año · 2026</p>
+          <p class="tl-sub">1 de enero de 2026</p>
+        </div>
+        <div class="tl-days" id="anio-dias">---</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot goal">💍</div>
+        <div class="tl-info">
+          <p class="tl-title">El gran momento </p>
+          <p class="tl-sub">12 de marzo de 2027</p>
+        </div>
+        <div class="tl-days" id="ring-dias">---</div>
+      </div>
+    </div>
+
+    <div class="footer-phrase">
+      Cada segundo que pasa es un segundo más cerca de prometerte<br>
+      que quiero estar a tu lado para siempre. 🌷
+    </div>
+
   </div>
 </div>
 
 <script>
-const USERS={
-  aby:{pass:'aby',name:'Aby',other:'Fred',otherKey:'fred',badgeClass:'badge-pink'},
-  fred:{pass:'fred',name:'Fred',other:'Aby',otherKey:'aby',badgeClass:'badge-blue'}
-};
-let currentUser=null,vibeInterval=null;
+const TARGET = new Date("2027-03-12T12:00:00");
+const START  = new Date("2025-06-18T00:00:00");
 
-function lsGet(k){try{return JSON.parse(localStorage.getItem('couple_'+k));}catch(e){return null;}}
-function lsSet(k,v){try{localStorage.setItem('couple_'+k,JSON.stringify(v));}catch(e){}}
+const FRASES = [
+  "Eres el hogar al que siempre quiero volver.",
+  "Contigo el tiempo pasa demasiado rápido y demasiado despacio a la vez.",
+  "No espero el futuro, lo vivo porque tú ya eres parte de él.",
+  "Cada día a tu lado es mi día favorito.",
+  "Te elegiría a ti, una y otra vez, en cada vida que me toque vivir.",
+  "Eres la respuesta a todas las preguntas que aún no me he hecho.",
+  "Mi corazón aprendió a latir diferente desde que llegaste.",
+  "No necesito el mundo entero, solo necesito tu mano en la mía.",
+  "Contigo descubrí que el amor no se busca, simplemente llega y se queda.",
+  "Eres mi persona favorita en este universo tan grande.",
+  "El día que te conocí, el tiempo decidió ser amable conmigo.",
+  "Prometer amarte es lo más fácil que haré en toda mi vida.",
+];
 
-function doLogin(){
-  const u=document.getElementById('uIn').value.trim().toLowerCase();
-  const p=document.getElementById('pIn').value.trim().toLowerCase();
-  const err=document.getElementById('loginErr');
-  if(USERS[u]&&USERS[u].pass===p){
-    err.textContent='';currentUser=u;
-    document.getElementById('sLogin').className='screen';
-    document.getElementById('sMain').className='screen on';
-    loadMain();startPolling();
-  } else {
-    err.textContent='Usuario o contraseña incorrectos';
-    document.getElementById('pIn').value='';
+let fraseIdx = Math.floor(Math.random() * FRASES.length);
+
+function cambiarFrase() {
+  fraseIdx = (fraseIdx + 1) % FRASES.length;
+  const el = document.getElementById("phraseText");
+  el.style.opacity = "0";
+  el.style.transition = "opacity 0.3s";
+  setTimeout(() => {
+    el.textContent = FRASES[fraseIdx];
+    el.style.opacity = "1";
+  }, 300);
+}
+
+function pad(n) { return String(Math.floor(n)).padStart(2, "0"); }
+
+function diasHasta(fecha) {
+  const hoy = new Date();
+  const diff = fecha - hoy;
+  return diff > 0 ? Math.ceil(diff / 86400000) : 0;
+}
+
+function actualizar() {
+  const ahora = new Date();
+  const diff  = TARGET - ahora;
+
+  if (diff <= 0) {
+    document.getElementById("dias").textContent     = "🎉";
+    document.getElementById("horas").textContent    = "¡Hoy";
+    document.getElementById("minutos").textContent  = "es";
+    document.getElementById("segundos").textContent = "el día!";
+    return;
   }
-}
-document.getElementById('pIn').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-document.getElementById('uIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pIn').focus();});
 
-function doLogout(){
-  currentUser=null;clearInterval(vibeInterval);
-  document.getElementById('sMain').className='screen';
-  document.getElementById('sLogin').className='screen on';
-  document.getElementById('uIn').value='';document.getElementById('pIn').value='';
-  showTab(1);
-}
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
 
-function loadMain(){
-  const u=USERS[currentUser];
-  const badge=document.getElementById('mainBadge');
-  badge.textContent=u.name;badge.className='badge '+u.badgeClass;
-  document.getElementById('mainName').textContent='Hola, '+u.name+' 🩷';
-  document.getElementById('otherName').textContent=u.other;
-  document.getElementById('noteFor').textContent=u.other;
-  renderNotes();renderStreak();
-}
+  document.getElementById("dias").textContent     = d;
+  document.getElementById("horas").textContent    = pad(h);
+  document.getElementById("minutos").textContent  = pad(m);
+  document.getElementById("segundos").textContent = pad(s);
 
-function showTab(n){
-  ['tabVibe','tabStreak','tabNotes'].forEach((id,i)=>{
-    document.getElementById(id).style.display=i===n-1?'block':'none';
-  });
-  ['tab1','tab2','tab3'].forEach((id,i)=>{
-    document.getElementById(id).className='tab'+(i===n-1?' active':'');
-  });
-  if(n===2)renderStreak();
-  if(n===3)renderNotes();
+  const total  = TARGET - START;
+  const pasado = ahora - START;
+  const pct    = Math.max(0, Math.min(100, (pasado / total) * 100));
+  document.getElementById("progressFill").style.width = pct.toFixed(2) + "%";
+  document.getElementById("pctLabel").textContent     = pct.toFixed(1) + "% completado";
+  document.getElementById("progressMsg").textContent  = `Faltan ${d} días · cada uno lleno de amor ✨`;
+
+  const navidad = new Date("2025-12-25");
+  const anio    = new Date("2026-01-01");
+  const dn = diasHasta(navidad);
+  const da = diasHasta(anio);
+  document.getElementById("navidad-dias").textContent = dn > 0 ? dn + " días" : "¡Ya pasó!";
+  document.getElementById("anio-dias").textContent    = da > 0 ? da + " días" : "¡Ya pasó!";
+  document.getElementById("ring-dias").textContent    = d + " días";
+
+  const hoyFmt = ahora.toLocaleDateString("es-EC", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+  document.getElementById("hoy-fecha").textContent = hoyFmt.charAt(0).toUpperCase() + hoyFmt.slice(1);
 }
 
-function sendVibe(){
-  if(!currentUser)return;
-  const u=USERS[currentUser];
-  lsSet('vibe_for_'+u.otherKey,{from:currentUser,ts:Date.now()});
-  let s=lsGet('stats')||{vibes:0,notes:0};s.vibes=(s.vibes||0)+1;lsSet('stats',s);
-  const btn=document.getElementById('vibeBtn');
-  btn.className='vibebtn sent';
-  btn.innerHTML='<div style="font-size:36px;margin-bottom:8px">✅</div>Enviado con amor';
-  document.getElementById('vibeStatus').textContent=u.other+' lo sentirá pronto 💗';
-  if(navigator.vibrate)navigator.vibrate([200,100,200]);
-  setTimeout(()=>{
-    btn.className='vibebtn';
-    btn.innerHTML='<div style="font-size:36px;margin-bottom:8px">🩷</div>Te estoy pensando';
-    document.getElementById('vibeStatus').textContent='';
-  },3000);
+document.getElementById("phraseText").textContent = FRASES[fraseIdx];
+
+const petalContainer = document.getElementById("petals");
+const petalEmojis = ["🌸","🌷","✨","🌺","💕","🌸","🌼"];
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement("div");
+  p.className = "petal";
+  p.textContent = petalEmojis[i % petalEmojis.length];
+  p.style.left  = (Math.random() * 100) + "%";
+  p.style.animationDuration = (6 + Math.random() * 10) + "s";
+  p.style.animationDelay    = (Math.random() * 10) + "s";
+  p.style.fontSize          = (12 + Math.random() * 14) + "px";
+  petalContainer.appendChild(p);
 }
 
-function checkIncomingVibe(){
-  if(!currentUser)return;
-  const data=lsGet('vibe_for_'+currentUser);
-  if(!data||Date.now()-data.ts>10000)return;
-  const name=USERS[data.from]?.name||data.from;
-  const banner=document.getElementById('incomingBanner');
-  banner.textContent='💗 '+name+' te está pensando!';
-  banner.className='incoming-banner show';
-  if(navigator.vibrate)navigator.vibrate([300,150,300,150,300]);
-  lsSet('vibe_for_'+currentUser,{...data,ts:0});
-  setTimeout(()=>{banner.className='incoming-banner';},6000);
-}
-
-function startPolling(){
-  clearInterval(vibeInterval);
-  vibeInterval=setInterval(checkIncomingVibe,2000);
-}
-
-function sendNote(){
-  if(!currentUser)return;
-  const input=document.getElementById('noteInput');
-  const text=input.value.trim();if(!text)return;
-  const notes=lsGet('notes')||[];
-  notes.unshift({from:currentUser,text,ts:Date.now()});
-  if(notes.length>50)notes.length=50;
-  lsSet('notes',notes);
-  let s=lsGet('stats')||{vibes:0,notes:0};s.notes=(s.notes||0)+1;lsSet('stats',s);
-  input.value='';renderNotes();
-}
-
-function renderNotes(){
-  const notes=lsGet('notes')||[];
-  const el=document.getElementById('notesList');
-  if(!notes.length){el.innerHTML='<p style="font-size:13px;color:#aaa;text-align:center">Todavía no hay notas</p>';return;}
-  el.innerHTML=notes.map(n=>{
-    const name=USERS[n.from]?.name||n.from;
-    const cls=n.from==='aby'?'aby':'fred';
-    const d=new Date(n.ts);
-    const time=d.toLocaleDateString('es',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
-    return `<div class="note-item"><span class="note-who ${cls}">${name}</span><p class="note-text">${esc(n.text)}</p><p class="note-time">${time}</p></div>`;
-  }).join('');
-}
-
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function checkInToday(){
-  const today=new Date().toISOString().slice(0,10);
-  const sd=lsGet('streak')||{days:[]};
-  const msg=document.getElementById('checkInMsg');
-  if(sd.days.includes(today)){msg.textContent='Ya marcaste hoy 😊';}
-  else{
-    sd.days.push(today);sd.days=sd.days.slice(-365);lsSet('streak',sd);
-    msg.textContent='✓ Marcado para hoy!';renderStreak();
-  }
-  setTimeout(()=>{msg.textContent='';},3000);
-}
-
-function calcStreak(days){
-  if(!days||!days.length)return 0;
-  const sorted=[...days].sort().reverse();
-  let count=0,d=new Date();d.setHours(0,0,0,0);
-  for(let i=0;i<sorted.length;i++){
-    const ds=d.toISOString().slice(0,10);
-    if(sorted.includes(ds)){count++;d.setDate(d.getDate()-1);}
-    else break;
-  }
-  return count;
-}
-
-function renderStreak(){
-  const sd=lsGet('streak')||{days:[]};
-  const s=lsGet('stats')||{vibes:0,notes:0};
-  const streak=calcStreak(sd.days);
-  document.getElementById('streakDays').textContent=streak;
-  document.getElementById('totalVibes').textContent=s.vibes||0;
-  document.getElementById('totalNotes').textContent=s.notes||0;
-  const fire=document.getElementById('streakFire');
-  const msg=document.getElementById('streakMsg');
-  if(streak===0){fire.textContent='🤍';msg.textContent='Marca hoy para empezar la racha';}
-  else if(streak<7){fire.textContent='🔥';msg.textContent=streak+' días seguidos — ¡sigan así!';}
-  else if(streak<30){fire.textContent='🔥🔥';msg.textContent='¡Una semana o más, son constantes!';}
-  else{fire.textContent='🔥🔥🔥';msg.textContent='¡Un mes o más — son increíbles!';}
-}
+actualizar();
+setInterval(actualizar, 1000);
 </script>
-</body>
-</html>
+
